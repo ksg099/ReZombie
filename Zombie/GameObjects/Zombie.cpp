@@ -3,6 +3,7 @@
 #include "SceneGame.h"
 #include "SpriteGoEffect.h"
 #include "ZombieTable.h"
+#include "UiHud.h"
 
 Zombie* Zombie::Create(Types zombieType)
 {
@@ -95,6 +96,8 @@ void Zombie::OnDamage(int damage)
 	{
 		hp = 0;
 		OnDie();
+		sceneGame->AddScore(10);
+		sceneGame->AddHiScore(10);
 	}
 }
 

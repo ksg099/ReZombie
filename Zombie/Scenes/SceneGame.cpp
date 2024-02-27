@@ -7,6 +7,7 @@
 #include "ItemSpawner.h"
 #include "UiHud.h"
 
+
 SceneGame::SceneGame(SceneIds id)
 	: Scene(id)
 {
@@ -70,6 +71,8 @@ void SceneGame::Init()
 	hud = new UiHud("Hud");
 	AddGo(hud, Scene::Layers::Ui);
 
+	LoadHiScore();
+
 	Scene::Init();
 }
 
@@ -97,7 +100,7 @@ void SceneGame::Enter()
 	Scene::Enter();
 
 	hud->SetScore(0);
-	hud->SetHiScore(0);
+	hud->SetHiScore(this->HiScore);
 	hud->SetAmmo(0, 0);
 	
 	SetStatus(Status::Playing);
@@ -156,3 +159,45 @@ void SceneGame::Draw(sf::RenderWindow& window)
 {
 	Scene::Draw(window);
 }
+
+void SceneGame::AddScore(int s)
+{
+	this->Score += s;
+	hud->SetScore(this->Score);
+}
+
+void SceneGame::AddHiScore(int s)
+{
+	if (Score > HiScore)
+	{
+		this->HiScore = this->Score;
+		hud->SetHiScore(this->HiScore);
+		SaveHiScore();
+	}
+}
+
+void SceneGame::SaveHiScore()
+{
+	std::ofstream file("HiScore.txt");
+	if (file.is_open())
+	{
+		file << this->HiScore;
+		file.close();
+	}
+}
+
+void SceneGame::LoadHiScore()
+{
+	std::ifstream file("HiScore.txt");
+
+	if (file.is_open())
+	{
+		file >> this->HiScore;
+		file.close();
+		hud->SetHiScore(this->HiScore);
+	}
+}
+
+
+
+

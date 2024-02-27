@@ -1,5 +1,7 @@
 #pragma once
 #include "Scene.h"
+#include <fstream>
+#include <iostream>
 
 class Player;
 class Spawner;
@@ -29,7 +31,10 @@ protected:
 	SpriteGo* crosshair;
 
 	int wave = 1;
-
+	int Score = 0;
+	int HiScore = 0;
+	
+	
 public:
 	SceneGame(SceneIds id);
 	~SceneGame() override = default;
@@ -56,5 +61,10 @@ public:
 	void Update(float dt) override;
 	void FixedUpdate(float dt) override;
 	void Draw(sf::RenderWindow& window) override;
+
+	void AddScore(int s);
+	void AddHiScore(int s);
+	void SaveHiScore();
+	void LoadHiScore();
 };
 
