@@ -18,6 +18,9 @@ void SceneGame::SetStatus(Status newStatus)
 	currentStatus = newStatus;
 	switch (currentStatus)
 	{
+	case SceneGame::Status::Title:
+		FRAMEWORK.SetTimeScale(0.f);
+		break;
 	case SceneGame::Status::Playing:
 		FRAMEWORK.SetTimeScale(1.f);
 		break;
@@ -100,7 +103,7 @@ void SceneGame::Enter()
 	hud->SetHiScore(0);
 	hud->SetAmmo(0, 0);
 	
-	SetStatus(Status::Playing);
+	SetStatus(Status::Title);
 	spawners[0]->SetActive(false);
 	spawners[0]->Spawn(5);
 	wave = 1;
@@ -128,6 +131,12 @@ void SceneGame::Update(float dt)
 
 	switch (currentStatus)
 	{
+	case SceneGame::Status::Title:
+		if (InputMgr::GetKeyDown(sf::Keyboard::Enter))
+		{
+			SetStatus(Status::Playing);
+		}
+		break;
 	case SceneGame::Status::Playing:
 		if (zombieList.size() == 0)
 		{
@@ -141,7 +150,6 @@ void SceneGame::Update(float dt)
 			hud->SetWave(++wave);
 			spawners[0]->Spawn(5 * wave);
 		}
-
 		break;
 	}
 }
