@@ -13,6 +13,7 @@ class SceneGame : public Scene
 public:
 	enum class Status
 	{
+		Title,
 		Playing,
 		NextWave,
 	};
