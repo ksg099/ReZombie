@@ -95,6 +95,8 @@ void Zombie::OnDamage(int damage)
 	{
 		hp = 0;
 		OnDie();
+		sceneGame->AddScore(10);
+		sceneGame->AddHiScore(10);
 	}
 }
 

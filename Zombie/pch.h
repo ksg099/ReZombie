@@ -11,6 +11,7 @@
 #include <list>
 #include <unordered_map>
 #include <string>
+#include <fstream>
 
 // SFML
 #include <SFML/Graphics.hpp>
