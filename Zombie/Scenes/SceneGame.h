@@ -1,5 +1,6 @@
 #pragma once
 #include "Scene.h"
+#include "TextGo.h"
 
 class Player;
 class Spawner;
@@ -32,6 +33,9 @@ protected:
 	int wave = 1;
 	int Score = 0;
 	int HiScore = 0;
+	float timer = 0.f;
+	int fpsCount = 0;
+	int fps = 0.f;
 
 public:
 	SceneGame(SceneIds id);

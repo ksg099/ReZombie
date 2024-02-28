@@ -19,13 +19,14 @@ protected:
 	sf::RectangleShape gaugeHp;
 	TextGo textWave;
 	TextGo textZombieCount;
+	TextGo uiFps;
 
 	sf::Vector2f gaugeHpSize = { 400.f, 50.f };
 
 	sf::Vector2f referenceResolution = { 1920.f, 1080.f };
 	sf::Vector2f resolution = referenceResolution;
 
-
+	bool isChecking = true;
 public:
 	UiHud(const std::string& name = "");
 	~UiHud() override = default;
@@ -39,6 +40,9 @@ public:
 	void SetHp(int hp, int max);
 	void SetWave(int w);
 	void SetZombieCount(int count);
+
+	void SetFps(int fps);
+	void Update(float dt);
 
 	void Init() override;
 	void Reset() override;

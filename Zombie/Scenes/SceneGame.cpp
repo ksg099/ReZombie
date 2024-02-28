@@ -110,6 +110,7 @@ void SceneGame::Enter()
 	spawners[0]->Spawn(5);
 	wave = 1;
 	hud->SetWave(wave);
+	hud->SetFps(0);
 }
 
 void SceneGame::Exit()
@@ -124,7 +125,18 @@ void SceneGame::Update(float dt)
 	hud->SetZombieCount(zombieList.size());
 
 	Scene::Update(dt);
-	
+
+	timer += dt;
+	++fpsCount;
+
+	if (timer >= 1)
+	{
+		fps = fpsCount / timer;
+		timer = 0;
+		fpsCount = 0;
+	}
+	hud->SetFps(fps);
+
 	crosshair->SetPosition(ScreenToUi((sf::Vector2i)InputMgr::GetMousePos()));
 
 	sf::Vector2f worldViewCenter = worldView.getCenter();
