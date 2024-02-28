@@ -142,7 +142,6 @@ void SceneGame::Update(float dt)
 
 	Scene::Update(dt);
 
-<<<<<<< HEAD
 	timer += dt;
 	++fpsCount;
 
@@ -154,8 +153,6 @@ void SceneGame::Update(float dt)
 	}
 	hud->SetFps(fps);
 
-=======
->>>>>>> origin/Develop
 	crosshair->SetPosition(ScreenToUi((sf::Vector2i)InputMgr::GetMousePos()));
 
 	sf::Vector2f worldViewCenter = worldView.getCenter();

@@ -43,7 +43,6 @@ void UiHud::SetZombieCount(int count)
 	textZombieCount.SetString(formatZombieCount + std::to_string(count));
 }
 
-<<<<<<< HEAD
 void UiHud::SetFps(int fps)
 {
 	uiFps.SetString("Fps:" + std::to_string(fps));
@@ -61,9 +60,6 @@ void UiHud::Update(float dt)
 		isChecking = true;
 	}
 }
-=======
-
->>>>>>> origin/Develop
 
 void UiHud::Init()
 {
@@ -136,14 +132,10 @@ void UiHud::Draw(sf::RenderWindow& window)
 	window.draw(gaugeHp);
 	textWave.Draw(window);
 	textZombieCount.Draw(window);
-<<<<<<< HEAD
 	if (isChecking)
 	{
 		uiFps.Draw(window);
 	}
-=======
-
-	
 
 }
 
@@ -151,5 +143,4 @@ void UiHud::minusbullet(int b)
 {
 	bulletCount -= b;
 	SetAmmo(bulletCount, totalCount);
->>>>>>> origin/Develop
 }

@@ -30,13 +30,11 @@ protected:
 	sf::Vector2f referenceResolution = { 1920.f, 1080.f };
 	sf::Vector2f resolution = referenceResolution;
 
-<<<<<<< HEAD
 	bool isChecking = true;
-=======
+
 	int bulletCount = 6;
 	int totalCount = 24;
 
->>>>>>> origin/Develop
 public:
 	UiHud(const std::string& name = "");
 	~UiHud() override = default;
