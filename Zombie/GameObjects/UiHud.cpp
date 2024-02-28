@@ -22,7 +22,9 @@ void UiHud::SetHiScore(int s)
 
 void UiHud::SetAmmo(int current, int total)
 {
-	textAmmo.SetString(std::to_string(current) + "/" + std::to_string(total - current));
+	bulletCount = current;
+	totalCount = total;
+	textAmmo.SetString(std::to_string(current) + "/" + std::to_string(total));
 }
 
 void UiHud::SetHp(int hp, int max)
@@ -41,6 +43,7 @@ void UiHud::SetZombieCount(int count)
 	textZombieCount.SetString(formatZombieCount + std::to_string(count));
 }
 
+<<<<<<< HEAD
 void UiHud::SetFps(int fps)
 {
 	uiFps.SetString("Fps:" + std::to_string(fps));
@@ -58,6 +61,9 @@ void UiHud::Update(float dt)
 		isChecking = true;
 	}
 }
+=======
+
+>>>>>>> origin/Develop
 
 void UiHud::Init()
 {
@@ -69,8 +75,10 @@ void UiHud::Init()
 	textZombieCount.Init();
 	uiFps.Init();
 
+
 	float textSize = 50.f;
 	sf::Font& font = RES_MGR_FONT.Get("fonts/zombiecontrol.ttf");
+
 	textScore.Set(font, "", textSize, sf::Color::White);
 	textHiScore.Set(font, "", textSize, sf::Color::White);
 	textAmmo.Set(font, "", textSize, sf::Color::White);
@@ -120,6 +128,7 @@ void UiHud::Reset()
 
 void UiHud::Draw(sf::RenderWindow& window)
 {
+	
 	textScore.Draw(window);
 	textHiScore.Draw(window);
 	imgAmmoIcon.Draw(window);
@@ -127,8 +136,20 @@ void UiHud::Draw(sf::RenderWindow& window)
 	window.draw(gaugeHp);
 	textWave.Draw(window);
 	textZombieCount.Draw(window);
+<<<<<<< HEAD
 	if (isChecking)
 	{
 		uiFps.Draw(window);
 	}
+=======
+
+	
+
+}
+
+void UiHud::minusbullet(int b)
+{
+	bulletCount -= b;
+	SetAmmo(bulletCount, totalCount);
+>>>>>>> origin/Develop
 }
