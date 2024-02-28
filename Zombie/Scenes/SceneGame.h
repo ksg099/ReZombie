@@ -8,8 +8,7 @@ class TileMap;
 class Zombie;
 class UiHud;
 class SpriteGo;
-class Upgrade;
-//class TextGo;
+
 class SceneGame : public Scene
 {
 public:
