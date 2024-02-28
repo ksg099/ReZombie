@@ -156,6 +156,10 @@ void SceneGame::Update(float dt)
 		{
 			SetStatus(Status::NextWave);
 		}
+		if (InputMgr::GetKeyDown(sf::Keyboard::Delete))
+		{
+			ZombieClear();
+		}
 		break;
 	case SceneGame::Status::NextWave:
 		if (InputMgr::GetKeyDown(sf::Keyboard::Space))
@@ -214,5 +218,20 @@ void SceneGame::LoadHiScore()
 		file >> this->HiScore;
 		file.close();
 		hud->SetHiScore(this->HiScore);
+	}
+}
+
+void SceneGame::ZombieClear()
+{
+	auto& list = GetZombieList();
+	for (auto Go : list)
+	{
+		if (!Go->GetActive())
+			continue;
+		Zombie* zombie = dynamic_cast<Zombie*>(Go);
+		if (zombie != nullptr)
+		{
+			zombie->OnDie();
+		}
 	}
 }

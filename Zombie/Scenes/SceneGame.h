@@ -69,5 +69,6 @@ public:
 	void AddHiScore(int s);
 	void SaveHiScore();
 	void LoadHiScore();
+	void ZombieClear();
 };
 
