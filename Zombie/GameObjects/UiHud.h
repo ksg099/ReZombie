@@ -11,6 +11,10 @@ protected:
 	std::string formatWave = "WAVE: ";
 	std::string formatZombieCount = "ZOMBIES: ";
 
+	//업그레이드
+	
+
+
 	TextGo textScore;
 	TextGo textHiScore;
 
@@ -25,6 +29,8 @@ protected:
 	sf::Vector2f referenceResolution = { 1920.f, 1080.f };
 	sf::Vector2f resolution = referenceResolution;
 
+	int bulletCount = 6;
+	int totalCount = 24;
 
 public:
 	UiHud(const std::string& name = "");
@@ -43,5 +49,9 @@ public:
 	void Init() override;
 	void Reset() override;
 	void Draw(sf::RenderWindow& window) override;
+
+	void minusbullet(int b);
+	int GetbulletCount() const { return bulletCount; }
+	int Getbullettotal() const { return totalCount; }
 };
 

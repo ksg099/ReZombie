@@ -7,7 +7,8 @@ class TileMap;
 class Zombie;
 class UiHud;
 class SpriteGo;
-
+class Upgrade;
+//class TextGo;
 class SceneGame : public Scene
 {
 public:
@@ -16,6 +17,7 @@ public:
 		Title,
 		Playing,
 		NextWave,
+		GameOver,
 	};
 protected:
 	Status currentStatus;
@@ -28,6 +30,9 @@ protected:
 
 	UiHud* hud;
 	SpriteGo* crosshair;
+	Upgrade* upui;
+	/*TextGo* overText;
+	std::string formatover = "GameOver";*/
 
 	int wave = 1;
 	int Score = 0;

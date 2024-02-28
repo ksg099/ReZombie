@@ -34,7 +34,8 @@ void Player::Reset()
 	isFiring = false;
 	fireTimer = fireInterval;
 
-	hp = maxHp;
+	hp = 100;
+	maxHp = 200;
 	sceneGame->GetHud()->SetHp(hp, maxHp);
 
 	ammo = maxAmmo;
@@ -46,6 +47,21 @@ void Player::Reset()
 void Player::Update(float dt)
 {
 	SpriteGo::Update(dt);
+
+	if (InputMgr::GetKeyDown(sf::Keyboard::R)) {
+
+		int count = sceneGame->GetHud()->GetbulletCount();
+		int total = sceneGame->GetHud()->Getbullettotal();
+		if (total == 0)
+			return;
+		if (count >= 0 && count <= 20)
+		{
+			total -= 20;
+			count = 20;
+		}
+		sceneGame->GetHud()->SetAmmo(count, total);
+	}
+
 
 	sf::Vector2i mousePos = (sf::Vector2i)InputMgr::GetMousePos();
 	sf::Vector2f mouseWorldPos = SCENE_MGR.GetCurrentScene()->ScreenToWorld(mousePos);
@@ -94,6 +110,8 @@ void Player::Update(float dt)
 			isNoDamage = false;
 		}
 	}
+	
+
 }
 
 void Player::Draw(sf::RenderWindow& window)
@@ -103,6 +121,9 @@ void Player::Draw(sf::RenderWindow& window)
 
 void Player::Fire()
 {
+
+	if (sceneGame->GetHud()->GetbulletCount() <= 0)
+		return;
 	Bullet* bullet = new Bullet();
 	bullet->Init();
 	bullet->Reset();
@@ -110,7 +131,15 @@ void Player::Fire()
 	bullet->Fire(look, bulletSpeed, bulletDamage);
 	sceneGame->AddGo(bullet);
 
+	sceneGame->GetHud()->minusbullet(1);
+
 	SOUND_MGR.PlaySfx("sound/shoot.wav");
+
+	//수정
+	std::cout <<"발사속도 : "<< fireInterval << std::endl;
+	std::cout << "플레이어 속도 : " << speed << std::endl;
+	std::cout << "MaxHp : " << maxHp << std::endl;
+	std::cout << "Hp : " << hp << std::endl;
 
 }
 
@@ -141,6 +170,7 @@ void Player::OnDie()
 
 	isAlive = false;
 	SetActive(false);
+	//sceneGame->SetStatus(SceneGame::Status::GameOver);
 }
 
 void Player::OnItem(Item* item)
@@ -149,10 +179,41 @@ void Player::OnItem(Item* item)
 	{
 	case Item::Types::Ammo:
 		ammo += item->GetValue();
+		sceneGame->GetHud()->SetAmmo(sceneGame->GetHud()->GetbulletCount()
+			, sceneGame->GetHud()->Getbullettotal() + 20);
 		break;
 	case Item::Types::Health:
 		hp += item->GetValue();
+		if (hp >= maxHp)
+		{
+			hp = maxHp;
+		}
 		sceneGame->GetHud()->SetHp(hp, maxHp);
 		break;
+	}
+}
+
+void Player::UpgradefireInterval(float f)
+{
+	if (fireInterval > 0.2f)
+	{
+		this->fireInterval -= f;
+	}
+	
+}
+
+void Player::UpgradeSpeed(float s)
+{
+	if (speed < 401.f)
+	{
+		this->speed += s;
+	}
+}
+
+void Player::UpgradeMaxHp(int h)
+{
+	if (maxHp < 400)
+	{
+		this->maxHp += h;
 	}
 }
