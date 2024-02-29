@@ -31,7 +31,7 @@ protected:
 	sf::Vector2f resolution = referenceResolution;
 
 
-	bool isChecking = true;
+	bool isChecking = false;
 
 	int bulletCount = 6;
 	int totalCount = 24;
