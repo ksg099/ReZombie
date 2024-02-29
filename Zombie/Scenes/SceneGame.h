@@ -41,7 +41,6 @@ protected:
 	TextGo* uiMsg;
 	bool upUiScene = true;
 	
-
 	int wave = 1;
 	int Score = 0;
 	int HiScore = 0;

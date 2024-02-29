@@ -187,7 +187,6 @@ void Player::OnItem(Item* item)
 	switch (item->GetType())
 	{
 	case Item::Types::Ammo:
-		
 		ammo = item->GetValue();
 		sceneGame->GetHud()->SetBulletCount(ammo);
 		sceneGame->GetHud()->SetAmmo(sceneGame->GetHud()->GetbulletCount()

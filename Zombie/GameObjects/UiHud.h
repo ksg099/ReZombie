@@ -11,7 +11,7 @@ protected:
 	std::string formatWave = "WAVE: ";
 	std::string formatZombieCount = "ZOMBIES: ";
 
-	//¾÷±×·¹ÀÌµå
+	//ï¿½ï¿½ï¿½×·ï¿½ï¿½Ìµï¿½
 	
 
 
