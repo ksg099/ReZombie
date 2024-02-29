@@ -9,6 +9,7 @@ class Zombie;
 class UiHud;
 class SpriteGo;
 class Upgrade;
+class TextGo;
 //class TextGo;
 class SceneGame : public Scene
 {
@@ -34,6 +35,8 @@ protected:
 	UiHud* hud;
 	SpriteGo* crosshair;
 	Upgrade* upui;
+	TextGo* uiText;
+	TextGo* uiMsg;
 	bool upUiScene = true;
 	/*TextGo* overText;
 	std::string formatover = "GameOver";*/
@@ -79,5 +82,6 @@ public:
 	void SaveHiScore();
 	void LoadHiScore();
 	void ZombieClear();
+	void SetHitBox();
 };
 

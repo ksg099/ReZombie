@@ -22,6 +22,7 @@ void Bullet::Init()
 	SetTexture("graphics/bullet.png");
 	SetOrigin(Origins::ML);
 	SetScale({ 2.f,2.f });
+	GetHitBox();
 }
 
 void Bullet::Reset()

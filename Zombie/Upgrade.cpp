@@ -28,13 +28,10 @@ void Upgrade::Init()
 	textHealthUp.SetOrigin(Origins::MC);
 	//Ui
 	upgradeUi.Init();
-	upgradeUi.SetTexture("graphics/background.png");
+	upgradeUi.SetTexture("graphics/ZombieSurvival.png");
 	upgradeUi.SetPosition({ 1920.f / 2.f , 1080.f / 2.f });
 	upgradeUi.SetOrigin(Origins::MC);
 	//upgradeUi.SetScale({ 0.5f, 0.5f });
-
-	
-
 }
 
 void Upgrade::Reset()

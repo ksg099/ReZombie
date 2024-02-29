@@ -119,8 +119,13 @@ void SpriteGo::Reset()
 void SpriteGo::Draw(sf::RenderWindow& window)
 {
 	window.draw(sprite);
-	if (test)
+	if (test && hitboxactive)
 	{
 		window.draw(shape);
 	}
+}
+
+void SpriteGo::GetHitBox()
+{
+	hitboxactive = true;
 }

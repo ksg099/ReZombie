@@ -14,7 +14,7 @@ void TitleScene::Init()
 	Scene::Init();
 	titleTexture = new SpriteGo("Title");
 	//titleTexture->SetOrigin(Origins::MC);
-	titleTexture->SetTexture("graphics/background.png");
+	titleTexture->SetTexture("graphics/ZombieSurvival.png");
 	AddGo(titleTexture);
 
 
