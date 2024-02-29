@@ -39,9 +39,9 @@ void Upgrade::Init()
 
 void Upgrade::Reset()
 {
-	////Ui
-	//textFireUp.Reset();
-	//upgradeUi.Reset();
+	FireCount = 0;
+	SpeedCount = 0;
+	HealthCount = 0;
 }
 
 void Upgrade::Draw(sf::RenderWindow& window)

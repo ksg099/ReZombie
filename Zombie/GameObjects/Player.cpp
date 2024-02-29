@@ -203,11 +203,14 @@ void Player::OnItem(Item* item)
 
 void Player::UpgradefireInterval(float f)
 {
-	if (fireInterval > 0.09f)
+	if (fireInterval > 0.1f)
 	{
 		this->fireInterval -= f;
+		if (fireInterval < 0.1f)
+		{
+			this->fireInterval = 0.1f;
+		}
 	}
-	
 }
 
 void Player::UpgradeSpeed(float s)
