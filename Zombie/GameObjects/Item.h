@@ -18,10 +18,9 @@ public:
 
 protected:
 	Types type = Types::None;
-	int healvalue = 100;
-	int ammovalue = 10;
-	float duration = 5.f;
 	float time = 0.f;
+	float duration = 5.f;
+	int value = 0;
 	Player* player = nullptr;
 
 	Item(const std::string& name = "");
@@ -30,8 +29,7 @@ public:
 	~Item() override = default;
 
 	Types GetType() const { return type; }
-	int GetAmmoValue() const { return ammovalue; }
-	int GetHealValue() const { return healvalue; }
+	int GetValue() const { return value; }
 
 
 	void Reset() override;

@@ -136,8 +136,8 @@ void SceneGame::Enter()
 	upui->AddHealthCount(0);
 
 	SetStatus(Status::Title);
-	spawners[0]->SetActive(false);
-	spawners[0]->Spawn(5);
+	zspawners[0]->SetActive(false);
+	zspawners[0]->Spawn(5);
 	wave = 1;
 	hud->SetWave(wave);
 	hud->SetFps(0);
@@ -247,7 +247,7 @@ void SceneGame::Update(float dt)
 		}
 		SetStatus(Status::Title);
 		hud->SetWave(++wave);
-		spawners[0]->Spawn(5 * wave);
+		zspawners[0]->Spawn(5 * wave);
 		break;
 	case SceneGame::Status::GameOver:
 

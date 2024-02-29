@@ -36,6 +36,8 @@ protected:
 	int bulletCount = 6;
 	int totalCount = 24;
 
+
+
 public:
 	UiHud(const std::string& name = "");
 	~UiHud() override = default;
@@ -48,7 +50,7 @@ public:
 	void SetAmmo(int current, int total);
 	void SetHp(int hp, int max);
 	void SetWave(int w);
-	void SetZombieCount(int countammo);
+	void SetZombieCount(int count);
 
 	void SetFps(int fps);
 	void Update(float dt);
@@ -57,6 +59,7 @@ public:
 	void Reset() override;
 	void Draw(sf::RenderWindow& window) override;
 
+	void SetBulletCount(int b);
 	void minusbullet(int b);
 	int GetbulletCount() const { return bulletCount; }
 	int Getbullettotal() const { return totalCount; }

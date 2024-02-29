@@ -6,18 +6,18 @@ Item* Item::Create(Types t, int v)
 {
     Item* newItem = new Item();
     newItem->type = t;
-    newItem->healvalue = v;
-    newItem->ammovalue = v;
+    newItem->value = v;
 
     switch (newItem->type)
     {
     case Types::Ammo:
         newItem->textureId = "graphics/ammo_pickup.png";
-        newItem->ammovalue = v;
         break;
     case Types::Health:
         newItem->textureId = "graphics/health_pickup.png";
-        newItem->healvalue = v;
+        break;
+    case Types::None:
+        newItem->textureId = "";
         break;
     }
 

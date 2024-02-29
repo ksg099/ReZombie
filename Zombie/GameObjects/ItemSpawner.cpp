@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "ItemSpawner.h"
 #include "GameObject.h"
+#include "SceneGame.h"
 
 ItemSpawner::ItemSpawner(const std::string& name)
     : Spawner(name)
@@ -28,18 +29,18 @@ GameObject* ItemSpawner::Create()
     if (Utils::RandomValue() < 0.2f)
     {
         itemType = Item::Types::Ammo;
-        value = 10;
+        value = 30;
     }
     else if (Utils::RandomValue() < 0.21f)
     {
         itemType = Item::Types::Health;
-        value = 10;
+        value = 50;
     }
-    else
+    /*else
     {
         itemType = Item::Types::None;
         value = 0;
-    }
+    }*/
     return Item::Create(itemType, value);
 }
 
