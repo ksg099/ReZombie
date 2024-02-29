@@ -35,7 +35,7 @@ void Player::Reset()
 	fireTimer = fireInterval;
 
 	hp = 100;
-	maxHp = 200;
+	maxHp = 100;
 	sceneGame->GetHud()->SetHp(hp, maxHp);
 
 	ammo = maxAmmo;
@@ -195,7 +195,7 @@ void Player::OnItem(Item* item)
 
 void Player::UpgradefireInterval(float f)
 {
-	if (fireInterval > 0.2f)
+	if (fireInterval > 0.09f)
 	{
 		this->fireInterval -= f;
 	}
@@ -204,7 +204,7 @@ void Player::UpgradefireInterval(float f)
 
 void Player::UpgradeSpeed(float s)
 {
-	if (speed < 401.f)
+	if (speed < 601.f)
 	{
 		this->speed += s;
 	}
@@ -212,7 +212,7 @@ void Player::UpgradeSpeed(float s)
 
 void Player::UpgradeMaxHp(int h)
 {
-	if (maxHp < 400)
+	if (maxHp < 401)
 	{
 		this->maxHp += h;
 	}

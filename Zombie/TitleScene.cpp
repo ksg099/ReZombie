@@ -23,6 +23,8 @@ void TitleScene::Init()
 	uiText->SetPosition({ 1920.f / 2, 1080.f - 200 });
 	uiText->SetOrigin(Origins::MC);
 	AddGo(uiText);
+
+	SOUND_MGR.PlayBgm("sound/MainBgm.wav", true);
 }
 
 void TitleScene::Release()
@@ -42,6 +44,7 @@ void TitleScene::Update(float dt)
 	worldView.setSize(windowSize);
 	worldView.setCenter({ centerPos });
 	uiText->SetString("Press Enter To Start!");
+	
 	if (InputMgr::GetKeyDown(sf::Keyboard::Enter))
 	{
 		SCENE_MGR.ChangeScene(SceneIds::SceneGame);
