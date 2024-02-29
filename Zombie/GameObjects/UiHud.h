@@ -20,11 +20,15 @@ protected:
 	TextGo textWave;
 	TextGo textZombieCount;
 
-	sf::Vector2f gaugeHpSize = { 400.f, 50.f };
+	sf::Vector2f gaugeHpSize = { 300.f, 25.f };
 
 	sf::Vector2f referenceResolution = { 1920.f, 1080.f };
 	sf::Vector2f resolution = referenceResolution;
 
+	int total = 0;
+	int score = 0;
+	int wave = 0;
+	int zombie = 0;
 
 public:
 	UiHud(const std::string& name = "");
@@ -38,7 +42,7 @@ public:
 	void SetAmmo(int current, int total);
 	void SetHp(int hp, int max);
 	void SetWave(int w);
-	void SetZombieCount(int count);
+	void SetZombieCount(int countammo);
 
 	void Init() override;
 	void Reset() override;

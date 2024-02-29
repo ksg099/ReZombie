@@ -1,8 +1,12 @@
 #pragma once
 #include "SpriteGo.h"
 #include "Player.h"
+#include "UiHud.h"
+#include "Item.h"
+#include "ItemSpawner.h"
 
 class SceneGame;
+class ItemSpawner;
 
 class Zombie : public SpriteGo
 {
@@ -29,6 +33,7 @@ protected:
 
 	Player* player = nullptr;
 	SceneGame* sceneGame = nullptr;
+	ItemSpawner* itemspawner;
 
 	sf::Vector2f direction;
 	bool isAlive = true;

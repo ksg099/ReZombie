@@ -36,8 +36,9 @@ void Player::Reset()
 
 	hp = maxHp;
 	sceneGame->GetHud()->SetHp(hp, maxHp);
+	sceneGame->GetHud()->SetAmmo(currentAmmo, total);
 
-	ammo = maxAmmo;
+	currentAmmo = maxAmmo;
 
 	isAlive = true;
 	isNoDamage = false;
@@ -80,7 +81,7 @@ void Player::Update(float dt)
 	}
 
 	fireTimer += dt;
-	if (isFiring && fireTimer > fireInterval && ammo > 0)
+	if (isFiring && fireTimer > fireInterval && currentAmmo > 0)
 	{
 		Fire();
 		fireTimer = 0.f;
@@ -103,14 +104,22 @@ void Player::Draw(sf::RenderWindow& window)
 
 void Player::Fire()
 {
-	Bullet* bullet = new Bullet();
-	bullet->Init();
-	bullet->Reset();
-	bullet->SetPosition(position);
-	bullet->Fire(look, bulletSpeed, bulletDamage);
-	sceneGame->AddGo(bullet);
+	if (currentAmmo > 0)
+	{
+		Bullet* bullet = new Bullet();
+		bullet->Init();
+		bullet->Reset();
+		bullet->SetPosition(position);
+		bullet->Fire(look, bulletSpeed, bulletDamage);
+		sceneGame->AddGo(bullet);
 
-	SOUND_MGR.PlaySfx("sound/shoot.wav");
+		SOUND_MGR.PlaySfx("sound/shoot.wav");
+	
+		currentAmmo--;
+		sceneGame->GetHud()->SetAmmo(currentAmmo, total);
+	}
+	
+
 
 }
 
@@ -148,10 +157,11 @@ void Player::OnItem(Item* item)
 	switch (item->GetType())
 	{
 	case Item::Types::Ammo:
-		ammo += item->GetValue();
+		currentAmmo += item->GetAmmoValue();
+		sceneGame->GetHud()->SetAmmo(currentAmmo, total);
 		break;
 	case Item::Types::Health:
-		hp += item->GetValue();
+		hp += item->GetHealValue();
 		sceneGame->GetHud()->SetHp(hp, maxHp);
 		break;
 	}

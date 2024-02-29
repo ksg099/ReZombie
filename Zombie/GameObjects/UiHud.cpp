@@ -20,9 +20,9 @@ void UiHud::SetHiScore(int s)
 	textHiScore.SetString(formatHighScore + std::to_string(s));
 }
 
-void UiHud::SetAmmo(int current, int total)
+void UiHud::SetAmmo(int countammo, int total)
 {
-	textAmmo.SetString(std::to_string(current) + "/" + std::to_string(total - current));
+	textAmmo.SetString(std::to_string(countammo) + "/" + std::to_string(total - countammo));
 }
 
 void UiHud::SetHp(int hp, int max)

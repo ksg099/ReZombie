@@ -3,6 +3,9 @@
 #include "SceneGame.h"
 #include "SpriteGoEffect.h"
 #include "ZombieTable.h"
+#include "ItemSpawner.h"
+#include "UiHud.h"
+#include "Item.h"
 
 Zombie* Zombie::Create(Types zombieType)
 {
@@ -41,7 +44,8 @@ void Zombie::Reset()
 
 	player = dynamic_cast<Player*>(SCENE_MGR.GetCurrentScene()->FindGo("Player"));
 	sceneGame = dynamic_cast<SceneGame*>(SCENE_MGR.GetCurrentScene());
-
+	itemspawner = dynamic_cast<ItemSpawner*>(SCENE_MGR.GetCurrentScene()->FindGo("itemspawner")); //
+	
 	isAlive = true;
 	hp = maxHp;
 	attackTimer = attackInterval;
@@ -106,6 +110,9 @@ void Zombie::OnDie()
 	isAlive = false;
 	SetActive(false);
 	sceneGame->RemoveGo(this);
+
+	itemspawner->OnDrop(position);
+	
 
 	PlayBloodEffect();
 }

@@ -6,15 +6,18 @@ Item* Item::Create(Types t, int v)
 {
     Item* newItem = new Item();
     newItem->type = t;
-    newItem->value = v;
+    newItem->healvalue = v;
+    newItem->ammovalue = v;
 
     switch (newItem->type)
     {
     case Types::Ammo:
         newItem->textureId = "graphics/ammo_pickup.png";
+        newItem->ammovalue = v;
         break;
     case Types::Health:
         newItem->textureId = "graphics/health_pickup.png";
+        newItem->healvalue = v;
         break;
     }
 
@@ -28,8 +31,10 @@ Item::Item(const std::string& name) : SpriteGo(name)
 void Item::Reset()
 {
     SpriteGo::Reset();
+    time = 0.f;
 
     player = dynamic_cast<Player*>(SCENE_MGR.GetCurrentScene()->FindGo("Player"));
+    SetOrigin(Origins::MC);
 }
 
 void Item::FixedUpdate(float dt)
@@ -38,6 +43,16 @@ void Item::FixedUpdate(float dt)
 
     if (player == nullptr)
         return;
+
+    time += dt;
+    if (time > duration)
+    {
+        SetActive(false);
+        SCENE_MGR.GetCurrentScene()->RemoveGo(this);
+        return;
+    }
+
+
 
     if (GetGlobalBounds().intersects(player->GetGlobalBounds()))
     {

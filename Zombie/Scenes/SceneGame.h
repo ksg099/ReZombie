@@ -22,7 +22,9 @@ protected:
 	Player* player = nullptr;
 	TileMap* tileMap;
 
-	std::vector<Spawner*> spawners;
+	std::vector<Spawner*> zspawners;
+	std::vector<Spawner*> ispawners;
+
 	std::list<GameObject*> zombieList;
 
 	UiHud* hud;

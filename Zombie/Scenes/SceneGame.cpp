@@ -44,15 +44,19 @@ sf::Vector2f SceneGame::ClampByTileMap(const sf::Vector2f& point)
 
 void SceneGame::Init()
 {
-	spawners.push_back(new ZombieSpawner());
-	spawners.push_back(new ItemSpawner());
+	zspawners.push_back(new ZombieSpawner());
+	ispawners.push_back(new ItemSpawner("itemspawner"));
 
-	for (auto s : spawners)
+	for (auto s : zspawners)
 	{
 		s->SetPosition({ 0.f, 0.f});
 		AddGo(s);
 	}
-
+	for (auto s : ispawners)
+	{
+		s->SetPosition({ 0.f, 0.f });
+		AddGo(s);
+	}
 	player = new Player("Player");
 	AddGo(player);
 
@@ -98,11 +102,11 @@ void SceneGame::Enter()
 
 	hud->SetScore(0);
 	hud->SetHiScore(0);
-	hud->SetAmmo(0, 0);
+	hud->SetAmmo(5, 20);
 	
 	SetStatus(Status::Playing);
-	spawners[0]->SetActive(false);
-	spawners[0]->Spawn(5);
+	zspawners[0]->SetActive(false);
+	zspawners[0]->Spawn(5);
 	wave = 1;
 	hud->SetWave(wave);
 }
@@ -139,7 +143,7 @@ void SceneGame::Update(float dt)
 		{
 			SetStatus(Status::Playing);
 			hud->SetWave(++wave);
-			spawners[0]->Spawn(5 * wave);
+			zspawners[0]->Spawn(5 * wave);
 		}
 
 		break;

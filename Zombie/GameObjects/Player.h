@@ -15,12 +15,13 @@ protected:
 
 	float fireInterval = 0.1f;
 	float bulletSpeed = 1000.f;
-	int bulletDamage = 1000;
+	int bulletDamage = 100;
 
-	int maxHp = 100000;
+	int maxHp = 1000;
 	int hp = maxHp;
 	int maxAmmo = 20;
-	int ammo = maxAmmo;
+	int total = currentAmmo + maxAmmo;
+	int currentAmmo = maxAmmo;
 
 	bool isAlive = true;
 	bool isNoDamage = false;
