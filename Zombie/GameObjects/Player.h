@@ -3,6 +3,7 @@
 
 class SceneGame;
 class Item;
+class ItemSpawner;
 
 class Player : public SpriteGo
 {
@@ -12,11 +13,12 @@ protected:
 	float speed = 200.f;
 
 	SceneGame* sceneGame = nullptr;
+	ItemSpawner* value = nullptr;
 
 	float fireInterval = 0.5f;
 	float bulletSpeed = 1000.f;
 
-	int bulletDamage = 20;
+	int bulletDamage = 10;
 
 	int maxHp = 200;
 	int hp = 10;
@@ -51,6 +53,10 @@ public:
 	void UpgradefireInterval(float f);
 	void UpgradeSpeed(float s);
 	void UpgradeMaxHp(int h);
+	void UpgradeFireDamage(int f);
+	void UpgradeMagazine(int m);
+
+
 	int GetHp() { return hp; }
 	void PlayerSetStat(float f, float s, int h);
 	

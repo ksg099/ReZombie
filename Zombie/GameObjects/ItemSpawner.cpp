@@ -4,24 +4,12 @@
 #include "SceneGame.h"
 
 ItemSpawner::ItemSpawner(const std::string& name)
-    : Spawner(name)
+    : Spawner(name) 
 {
 }
 
 GameObject* ItemSpawner::Create()
 {
-    //switch (itemType)
-    //{
-    //case Item::Types::Ammo:
-    //    value = 10;
-    //    break;
-    //case Item::Types::Health:
-    //    value = 50;
-
-    //    break;
-    //}
-
-    //-1, 0 , 1을 반환 RandomValue 이떄 범위를 지정해서 나오는 범위만큼 확률
     if (itemTypes.empty())
         return nullptr;
 
@@ -29,18 +17,19 @@ GameObject* ItemSpawner::Create()
     if (Utils::RandomValue() < 0.2f)
     {
         itemType = Item::Types::Ammo;
-        value = 30;
+        value = Ammovalue;
+       
     }
     else if (Utils::RandomValue() < 0.21f)
     {
         itemType = Item::Types::Health;
-        value = 50;
+        value = Healthvalue;
+        
     }
-    /*else
+    else
     {
         itemType = Item::Types::None;
-        value = 0;
-    }*/
+    }
     return Item::Create(itemType, value);
 }
 
@@ -59,7 +48,6 @@ void ItemSpawner::Reset()
 
 void ItemSpawner::OnDrop(const sf::Vector2f& position)
 {
-    //itemTypes.push_back(Item::Types::Health);
     GameObject* newItem = Create();
 
     newItem->Init();
@@ -70,3 +58,16 @@ void ItemSpawner::OnDrop(const sf::Vector2f& position)
     SCENE_MGR.GetCurrentScene()->AddGo(newItem);
 
 }
+
+int ItemSpawner::GetAmmovalue(int a)
+{
+     this->Ammovalue += a;
+     return Ammovalue;
+}
+
+void ItemSpawner::GetHealthvalue(int h)
+{
+    this->Healthvalue += h;
+}
+
+

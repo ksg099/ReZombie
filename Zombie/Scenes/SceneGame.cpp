@@ -31,6 +31,9 @@ void SceneGame::SetStatus(Status newStatus)
 	case SceneGame::Status::GameOver:
 		FRAMEWORK.SetTimeScale(0.f);
 		break;
+	case SceneGame::Status::Pause:
+		FRAMEWORK.SetTimeScale(0.f);
+		break;
 	}
 }
 
@@ -59,10 +62,10 @@ void SceneGame::Init()
 		s->SetPosition({ 0.f, 0.f });
 		AddGo(s);
 	}
-	for (auto s : ispawners)
+	for (auto i : ispawners)
 	{
-		s->SetPosition({ 0.f, 0.f });
-		AddGo(s);
+		i->SetPosition({ 0.f, 0.f });
+		AddGo(i);
 	}
 	player = new Player("Player");
 	AddGo(player);
@@ -86,13 +89,6 @@ void SceneGame::Init()
 
 	float textSize = 120.f;
 	sf::Font& font = RES_MGR_FONT.Get("fonts/zombiecontrol.ttf");
-
-	/*overText = new TextGo("over");
-	overText->Set(font, formatover, textSize, sf::Color::White);
-	overText->SetPosition({ 1920 / 2.f , 1080 / 2.f });
-	overText->SetOrigin(Origins::MC);
-	AddGo(overText);*/
-
 
 	LoadHiScore();
 
@@ -118,7 +114,7 @@ void SceneGame::Enter()
 	TileMap* tileMap = dynamic_cast<TileMap*>(FindGo("Background"));
 	tileMap->SetPosition({ 0.f, 0.f });
 	tileMap->SetOrigin(Origins::MC);
-	player->SetPosition({ -1000.f, -1000.f });
+	player->SetPosition({0, 0});
 
 	Scene::Enter();
 	hud->SetScore(0);
@@ -134,10 +130,11 @@ void SceneGame::Enter()
 	upui->AddFireCount(0);
 	upui->AddSpeedCount(0);
 	upui->AddHealthCount(0);
+	upui->AddFireDamageCount(0);
+	upui->AddMagazineCount(0);
 
 	SetStatus(Status::Title);
 	zspawners[0]->SetActive(false);
-	zspawners[0]->Spawn(5);
 	wave = 1;
 	hud->SetWave(wave);
 	hud->SetFps(0);
@@ -170,6 +167,10 @@ void SceneGame::Reset()
 
 void SceneGame::Update(float dt)
 {
+	//선형 사운드 추가
+
+
+
 	FindGoAll("Zombie", zombieList, Layers::World);
 	hud->SetZombieCount(zombieList.size());
 
@@ -195,30 +196,47 @@ void SceneGame::Update(float dt)
 	switch (currentStatus)
 	{
 	case SceneGame::Status::Title:
-		if (InputMgr::GetKeyDown(sf::Keyboard::Num1))
+		if (InputMgr::GetKeyDown(sf::Keyboard::Num1) && upui->GetFireCount() < 10)
 		{
 			player->UpgradefireInterval(0.04f);
 			upui->SetActive(false);
 			SetStatus(Status::Playing);
 			upui->AddFireCount(1);
 		}
-		else if (InputMgr::GetKeyDown(sf::Keyboard::Num2))
+		else if (InputMgr::GetKeyDown(sf::Keyboard::Num2) && upui->GetSpeedCount() < 10)
 		{
 			player->UpgradeSpeed(40.f);
 			upui->SetActive(false);
 			SetStatus(Status::Playing);
 			upui->AddSpeedCount(1);
 		}
-		else if (InputMgr::GetKeyDown(sf::Keyboard::Num3))
+		else if (InputMgr::GetKeyDown(sf::Keyboard::Num3) && upui->GetHealthCount() < 10)
 		{
 			player->UpgradeMaxHp(30);
 			upui->SetActive(false);
 			SetStatus(Status::Playing);
 			upui->AddHealthCount(1);
 		}
-
+		else if (InputMgr::GetKeyDown(sf::Keyboard::Num4) && upui->GetFireDamageCount() < 5)
+		{
+			player->UpgradeFireDamage(10);
+			upui->SetActive(false);
+			SetStatus(Status::Playing);
+			upui->AddFireDamageCount(1);
+		}
+		else if (InputMgr::GetKeyDown(sf::Keyboard::Num5) && upui->GetMagazineCount() < 5)
+		{
+			value->GetAmmovalue(6);
+			upui->SetActive(false);
+			SetStatus(Status::Playing);
+			upui->AddMagazineCount(1);
+		}
 		break;
 	case SceneGame::Status::Playing:
+		if (InputMgr::GetKeyDown(sf::Keyboard::Escape))
+		{
+			SetStatus(Status::Pause);
+		}
 		if (zombieList.size() == 0)
 		{
 			SetStatus(Status::NextWave);
@@ -239,12 +257,7 @@ void SceneGame::Update(float dt)
 		}
 		break;
 	case SceneGame::Status::NextWave:
-		if (InputMgr::GetKeyDown(sf::Keyboard::Space))
-		{
-			SetStatus(Status::Playing);
-			hud->SetWave(++wave);
-			zspawners[0]->Spawn(5 * wave);
-		}
+		player->SetPosition({ 0, 0 });
 		SetStatus(Status::Title);
 		hud->SetWave(++wave);
 		zspawners[0]->Spawn(5 * wave);

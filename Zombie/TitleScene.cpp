@@ -49,6 +49,7 @@ void TitleScene::Update(float dt)
 	{
 		SCENE_MGR.ChangeScene(SceneIds::SceneGame);
 	}
+	
 }
 
 void TitleScene::Draw(sf::RenderWindow& window)

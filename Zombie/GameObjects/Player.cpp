@@ -5,6 +5,7 @@
 #include "Bullet.h"
 #include "Item.h";
 #include "UiHud.h"
+#include "ItemSpawner.h"
 
 Player::Player(const std::string& name)
 	: SpriteGo(name)
@@ -220,15 +221,40 @@ void Player::UpgradeSpeed(float s)
 	if (speed < 601.f)
 	{
 		this->speed += s;
+		if (speed > 601.f)
+		{
+			this->speed = 600.f;
+		}
 	}
 }
 
 void Player::UpgradeMaxHp(int h)
 {
-	if (maxHp < 401)
+	if (maxHp < 401.f)
 	{
 		this->maxHp += h;
+		if (maxHp > 401.f)
+		{
+			this->maxHp = 400.f;
+		}
 	}
+}
+
+void Player::UpgradeFireDamage(int f)
+{
+	if (bulletDamage < 61.f)
+	{
+		this->bulletDamage += f;
+		if (bulletDamage > 61.f)
+		{
+			this->bulletDamage = 60.f;
+		}
+	}
+}
+
+void Player::UpgradeMagazine(int m)
+{
+	//value->Amm
 }
 
 void Player::PlayerSetStat(float f, float s, int h)
