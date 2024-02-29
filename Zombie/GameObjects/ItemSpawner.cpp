@@ -59,15 +59,6 @@ void ItemSpawner::OnDrop(const sf::Vector2f& position)
 
 }
 
-int ItemSpawner::GetAmmovalue(int a)
-{
-     this->Ammovalue += a;
-     return Ammovalue;
-}
 
-void ItemSpawner::GetHealthvalue(int h)
-{
-    this->Healthvalue += h;
-}
 
 
