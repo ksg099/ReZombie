@@ -145,8 +145,8 @@ void TileMap::Init()
 {
 	GameObject::Init();
 	SetSpriteSheetId("graphics/background_sheet.png");
+
 	Set({ 30, 30 }, { 50.f, 50.f });
-	//SetOrigin(Origins::MC);
 }
 
 void TileMap::Release()

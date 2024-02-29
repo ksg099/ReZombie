@@ -8,6 +8,7 @@ protected:
 	sf::RectangleShape shape;
 	sf::Vector2f hitBox;
 	bool test = false;
+	bool hitboxactive = false;
 public:
 	SpriteGo(const std::string& name = "");
 
@@ -31,5 +32,6 @@ public:
 	void Reset() override;
 	void Draw(sf::RenderWindow& window) override;
 
+	void GetHitBox();
 };
 

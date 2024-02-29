@@ -10,6 +10,7 @@ class UiHud;
 class SpriteGo;
 class Upgrade;
 class ItemSpawner;
+class TextGo;
 class SceneGame : public Scene
 {
 public:
@@ -36,6 +37,8 @@ protected:
 	SpriteGo* crosshair;
 	Upgrade* upui;
 	ItemSpawner* value;
+	TextGo* uiText;
+	TextGo* uiMsg;
 	bool upUiScene = true;
 	
 
@@ -80,5 +83,6 @@ public:
 	void SaveHiScore();
 	void LoadHiScore();
 	void ZombieClear();
+	void SetHitBox();
 };
 
