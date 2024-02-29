@@ -135,6 +135,25 @@ void SceneGame::Exit()
 	FRAMEWORK.GetWindow().setMouseCursorVisible(true);
 }
 
+void SceneGame::Reset()
+{
+	player->SetActive(true);
+	wave = 1;
+	hud->SetWave(wave);
+	player->PlayerSetStat(0.5, 200, 100);
+	auto& list = GetZombieList();
+	for (auto Go : list)
+	{
+		if (!Go->GetActive())
+			continue;
+		Zombie* zombie = dynamic_cast<Zombie*>(Go);
+		if (zombie != nullptr)
+		{
+			RemoveGo(zombie);
+		}
+	}
+}
+
 void SceneGame::Update(float dt)
 {
 	FindGoAll("Zombie", zombieList, Layers::World);
@@ -209,9 +228,13 @@ void SceneGame::Update(float dt)
 		break;
 	case SceneGame::Status::GameOver:
 
-		SCENE_MGR.ChangeScene(SceneIds::TitleScene);
-		//SetStatus(Status::Title);
-		
+		if (InputMgr::GetKeyDown(sf::Keyboard::Enter))
+		{
+			SCENE_MGR.ChangeScene(SceneIds::TitleScene);
+			SetStatus(Status::Title);
+			upui->SetActive(true);
+			Reset();
+		}
 	}
 }
 

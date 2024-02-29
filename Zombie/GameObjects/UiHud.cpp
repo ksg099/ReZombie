@@ -53,11 +53,11 @@ void UiHud::Update(float dt)
 	GameObject::Update(dt);
 	if (InputMgr::GetKeyDown(sf::Keyboard::F1))
 	{
-		isChecking = false;
+		isChecking = true;
 	}
 	if (InputMgr::GetKeyDown(sf::Keyboard::F2))
 	{
-		isChecking = true;
+		isChecking = false;
 	}
 }
 

@@ -102,7 +102,7 @@ void Player::Update(float dt)
 		fireTimer = 0.f;
 	}
 
-	if (isNoDamage)
+	if (isNoDamage && !testMode)
 	{
 		noDamageTimer += dt;
 		if (noDamageTimer > noDamageTime)
@@ -110,7 +110,16 @@ void Player::Update(float dt)
 			isNoDamage = false;
 		}
 	}
-	
+	if (InputMgr::GetKeyDown(sf::Keyboard::F3))
+	{
+		testMode = true;
+		isNoDamage = true;
+	}
+	if (InputMgr::GetKeyDown(sf::Keyboard::F4))
+	{
+		testMode = false;
+		isNoDamage = false;
+	}
 
 }
 
@@ -170,7 +179,6 @@ void Player::OnDie()
 
 	isAlive = false;
 	SetActive(false);
-	//sceneGame->SetStatus(SceneGame::Status::GameOver);
 }
 
 void Player::OnItem(Item* item)
@@ -216,4 +224,11 @@ void Player::UpgradeMaxHp(int h)
 	{
 		this->maxHp += h;
 	}
+}
+
+void Player::PlayerSetStat(float f, float s, int h)
+{
+	maxHp = h;
+	speed = s;
+	fireInterval = f;
 }

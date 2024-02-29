@@ -5,7 +5,9 @@ class SpriteGo : public GameObject
 protected:
 	sf::Sprite sprite;
 	std::string textureId;
-
+	sf::RectangleShape shape;
+	sf::Vector2f hitBox;
+	bool test = false;
 public:
 	SpriteGo(const std::string& name = "");
 
@@ -25,6 +27,7 @@ public:
 	void SetFlipX(bool filp) override;
 	void SetFlipY(bool filp) override;
 
+	void Update(float dt) override;
 	void Reset() override;
 	void Draw(sf::RenderWindow& window) override;
 

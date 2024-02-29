@@ -32,6 +32,7 @@ protected:
 	UiHud* hud;
 	SpriteGo* crosshair;
 	Upgrade* upui;
+	bool upUiScene = true;
 	/*TextGo* overText;
 	std::string formatover = "GameOver";*/
 
@@ -64,6 +65,7 @@ public:
 
 	void Enter() override;
 	void Exit() override;
+	void Reset();
 
 	void Update(float dt) override;
 	void FixedUpdate(float dt) override;

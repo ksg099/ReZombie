@@ -17,13 +17,14 @@ protected:
 	float bulletSpeed = 1000.f;
 	int bulletDamage = 20;
 
-	int maxHp = 400;
+	int maxHp = 200;
 	int hp = 10;
 	int maxAmmo = 40;
 	int ammo = 20;
 
 	bool isAlive = true;
 	bool isNoDamage = false;
+	bool testMode = false;
 	float noDamageTime = 0.5f;
 	float noDamageTimer = 0.f;
 
@@ -50,6 +51,7 @@ public:
 	void UpgradeSpeed(float s);
 	void UpgradeMaxHp(int h);
 	int GetHp() { return hp; }
+	void PlayerSetStat(float f, float s, int h);
 	
 };
 
