@@ -1,5 +1,6 @@
 #pragma once
 #include "Scene.h"
+#include "TextGo.h"
 
 class Player;
 class Spawner;
@@ -31,12 +32,16 @@ protected:
 	UiHud* hud;
 	SpriteGo* crosshair;
 	Upgrade* upui;
+	bool upUiScene = true;
 	/*TextGo* overText;
 	std::string formatover = "GameOver";*/
 
 	int wave = 1;
 	int Score = 0;
 	int HiScore = 0;
+	float timer = 0.f;
+	int fpsCount = 0;
+	int fps = 0.f;
 
 public:
 	SceneGame(SceneIds id);
@@ -60,6 +65,7 @@ public:
 
 	void Enter() override;
 	void Exit() override;
+	void Reset();
 
 	void Update(float dt) override;
 	void FixedUpdate(float dt) override;
@@ -70,5 +76,6 @@ public:
 	void AddHiScore(int s);
 	void SaveHiScore();
 	void LoadHiScore();
+	void ZombieClear();
 };
 

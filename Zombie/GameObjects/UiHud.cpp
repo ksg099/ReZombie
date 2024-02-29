@@ -43,7 +43,23 @@ void UiHud::SetZombieCount(int count)
 	textZombieCount.SetString(formatZombieCount + std::to_string(count));
 }
 
+void UiHud::SetFps(int fps)
+{
+	uiFps.SetString("Fps:" + std::to_string(fps));
+}
 
+void UiHud::Update(float dt)
+{
+	GameObject::Update(dt);
+	if (InputMgr::GetKeyDown(sf::Keyboard::F1))
+	{
+		isChecking = true;
+	}
+	if (InputMgr::GetKeyDown(sf::Keyboard::F2))
+	{
+		isChecking = false;
+	}
+}
 
 void UiHud::Init()
 {
@@ -53,6 +69,7 @@ void UiHud::Init()
 	textAmmo.Init();
 	textWave.Init();
 	textZombieCount.Init();
+	uiFps.Init();
 
 
 	float textSize = 50.f;
@@ -67,6 +84,9 @@ void UiHud::Init()
 	gaugeHp.setFillColor(sf::Color::Red);
 	gaugeHp.setSize(gaugeHpSize);
 
+	uiFps.Set(font, "", textSize, sf::Color::Green);
+	uiFps.SetOrigin(Origins::TL);
+
 	textScore.SetOrigin(Origins::TL);
 	textHiScore.SetOrigin(Origins::TR);
 	imgAmmoIcon.SetOrigin(Origins::BL);
@@ -79,6 +99,7 @@ void UiHud::Init()
 	float topY = 25.f;
 	textScore.SetPosition({ 25.f, topY });
 	textHiScore.SetPosition({ referenceResolution.x - 25.f, topY });
+	uiFps.SetPosition({ 25.f,topY + 50.f });
 
 	// Bottom
 	float BottomY = referenceResolution.y - 25.f;;
@@ -98,6 +119,7 @@ void UiHud::Reset()
 	textAmmo.Reset();
 	textWave.Reset();
 	textZombieCount.Reset();
+	uiFps.Reset();
 }
 
 void UiHud::Draw(sf::RenderWindow& window)
@@ -110,8 +132,10 @@ void UiHud::Draw(sf::RenderWindow& window)
 	window.draw(gaugeHp);
 	textWave.Draw(window);
 	textZombieCount.Draw(window);
-
-	
+	if (isChecking)
+	{
+		uiFps.Draw(window);
+	}
 
 }
 

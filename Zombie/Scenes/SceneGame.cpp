@@ -130,6 +130,7 @@ void SceneGame::Enter()
 	spawners[0]->Spawn(5);
 	wave = 1;
 	hud->SetWave(wave);
+	hud->SetFps(0);
 }
 
 void SceneGame::Exit()
@@ -138,12 +139,42 @@ void SceneGame::Exit()
 	FRAMEWORK.GetWindow().setMouseCursorVisible(true);
 }
 
+void SceneGame::Reset()
+{
+	player->SetActive(true);
+	wave = 1;
+	hud->SetWave(wave);
+	player->PlayerSetStat(0.5, 200, 100);
+	auto& list = GetZombieList();
+	for (auto Go : list)
+	{
+		if (!Go->GetActive())
+			continue;
+		Zombie* zombie = dynamic_cast<Zombie*>(Go);
+		if (zombie != nullptr)
+		{
+			RemoveGo(zombie);
+		}
+	}
+}
+
 void SceneGame::Update(float dt)
 {
 	FindGoAll("Zombie", zombieList, Layers::World);
 	hud->SetZombieCount(zombieList.size());
 
 	Scene::Update(dt);
+
+	timer += dt;
+	++fpsCount;
+
+	if (timer >= 1)
+	{
+		fps = fpsCount / timer;
+		timer = 0;
+		fpsCount = 0;
+	}
+	hud->SetFps(fps);
 
 	crosshair->SetPosition(ScreenToUi((sf::Vector2i)InputMgr::GetMousePos()));
 
@@ -183,13 +214,34 @@ void SceneGame::Update(float dt)
 			SetStatus(Status::NextWave);
 			upui->SetActive(true);
 		}
-
+		if (InputMgr::GetKeyDown(sf::Keyboard::Space))
+		{
+			player->OnDie();
+			SetStatus(Status::GameOver);
+		}
+		if (player->GetHp() <= 0)
+		{
+			SetStatus(Status::GameOver);
+		}
+		if (InputMgr::GetKeyDown(sf::Keyboard::Delete))
+		{
+			ZombieClear();
+		}
 		break;
 	case SceneGame::Status::NextWave:
 		SetStatus(Status::Title);
 		hud->SetWave(++wave);
 		spawners[0]->Spawn(5 * wave);
 		break;
+	case SceneGame::Status::GameOver:
+
+		if (InputMgr::GetKeyDown(sf::Keyboard::Enter))
+		{
+			SCENE_MGR.ChangeScene(SceneIds::TitleScene);
+			SetStatus(Status::Title);
+			upui->SetActive(true);
+			Reset();
+		}
 	}
 }
 
@@ -239,5 +291,20 @@ void SceneGame::LoadHiScore()
 		file >> this->HiScore;
 		file.close();
 		hud->SetHiScore(this->HiScore);
+	}
+}
+
+void SceneGame::ZombieClear()
+{
+	auto& list = GetZombieList();
+	for (auto Go : list)
+	{
+		if (!Go->GetActive())
+			continue;
+		Zombie* zombie = dynamic_cast<Zombie*>(Go);
+		if (zombie != nullptr)
+		{
+			zombie->OnDie();
+		}
 	}
 }
