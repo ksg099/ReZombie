@@ -252,11 +252,6 @@ void Player::UpgradeFireDamage(int f)
 	}
 }
 
-void Player::UpgradeMagazine(int m)
-{
-	//value->Amm
-}
-
 void Player::PlayerSetStat(float f, float s, int h)
 {
 	maxHp = h;

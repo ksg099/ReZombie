@@ -54,7 +54,6 @@ public:
 	void UpgradeSpeed(float s);
 	void UpgradeMaxHp(int h);
 	void UpgradeFireDamage(int f);
-	void UpgradeMagazine(int m);
 
 
 	int GetHp() { return hp; }
