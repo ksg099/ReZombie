@@ -9,8 +9,8 @@ class Zombie;
 class UiHud;
 class SpriteGo;
 class Upgrade;
+class ItemSpawner;
 class TextGo;
-//class TextGo;
 class SceneGame : public Scene
 {
 public:
@@ -20,6 +20,7 @@ public:
 		Playing,
 		NextWave,
 		GameOver,
+		Pause,
 	};
 protected:
 	Status currentStatus;
@@ -35,11 +36,11 @@ protected:
 	UiHud* hud;
 	SpriteGo* crosshair;
 	Upgrade* upui;
+	ItemSpawner* value;
 	TextGo* uiText;
 	TextGo* uiMsg;
 	bool upUiScene = true;
-	/*TextGo* overText;
-	std::string formatover = "GameOver";*/
+	
 
 	int wave = 1;
 	int Score = 0;

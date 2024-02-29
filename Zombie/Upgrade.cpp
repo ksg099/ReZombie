@@ -8,24 +8,32 @@ Upgrade::Upgrade(const std::string& name)
 
 void Upgrade::Init()
 {
-	float textSize = 90.f;
+	float textSize = 80.f;
 	sf::Font& font = RES_MGR_FONT.Get("fonts/zombiecontrol.ttf");
 	
-	textMaxUp.Set(font, formatMaxUpgrade, textSize, sf::Color::White);
+	textMaxUp.Set(font, formatMaxUpgrade, 70, sf::Color::White);
 	textMaxUp.SetPosition({ 1920.f / 2.f , 200 });
 	textMaxUp.SetOrigin(Origins::MC);
 
 	textFireUp.Set(font, formatFireSpeed, textSize, sf::Color::White);
-	textFireUp.SetPosition({ 1920.f / 2.f , 400 });
+	textFireUp.SetPosition({ 1920.f / 2.f , 330 });
 	textFireUp.SetOrigin(Origins::MC);
 
 	textSpeedUp.Set(font, formatPlayerSpeed, textSize, sf::Color::White);
-	textSpeedUp.SetPosition({ 1920.f / 2.f , 550 });
+	textSpeedUp.SetPosition({ 1920.f / 2.f , 460 });
 	textSpeedUp.SetOrigin(Origins::MC);
 
 	textHealthUp.Set(font, formatMaxHealth, textSize, sf::Color::White);
-	textHealthUp.SetPosition({ 1920.f / 2.f , 700 });
+	textHealthUp.SetPosition({ 1920.f / 2.f , 590 });
 	textHealthUp.SetOrigin(Origins::MC);
+
+	textFireDamageUp.Set(font, formatFireDamage, textSize, sf::Color::White);
+	textFireDamageUp.SetPosition({ 1920.f / 2.f , 720 });
+	textFireDamageUp.SetOrigin(Origins::MC);
+
+	textMagazinehUp.Set(font, formatMagazine, textSize, sf::Color::White);
+	textMagazinehUp.SetPosition({ 1920.f / 2.f , 840 });
+	textMagazinehUp.SetOrigin(Origins::MC);
 	//Ui
 	upgradeUi.Init();
 	upgradeUi.SetTexture("graphics/ZombieSurvival.png");
@@ -49,6 +57,8 @@ void Upgrade::Draw(sf::RenderWindow& window)
 	textFireUp.Draw(window);
 	textSpeedUp.Draw(window);
 	textHealthUp.Draw(window);
+	textFireDamageUp.Draw(window);
+	textMagazinehUp.Draw(window);
 }
 
 void Upgrade::AddFireCount(int f)
@@ -68,4 +78,16 @@ void Upgrade::AddHealthCount(int h)
 {
 	this->HealthCount += h;
 	textHealthUp.SetString(formatMaxHealth + std::to_string(this->HealthCount));
+}
+
+void Upgrade::AddFireDamageCount(int d)
+{
+	this->FireDamageCount += d;
+	textFireDamageUp.SetString(formatFireDamage + std::to_string(this->FireDamageCount));
+}
+
+void Upgrade::AddMagazineCount(int m)
+{
+	this->MagazineCount += m;
+	textMagazinehUp.SetString(formatMagazine + std::to_string(this->MagazineCount));
 }
