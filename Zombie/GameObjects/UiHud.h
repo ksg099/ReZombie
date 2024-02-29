@@ -32,8 +32,8 @@ protected:
 
 	bool isChecking = true;
 
-	int bulletCount = 6;
-	int totalCount = 24;
+	int bulletCount = 0;
+	int totalCount = 40;
 
 public:
 	UiHud(const std::string& name = "");
@@ -59,5 +59,7 @@ public:
 	void minusbullet(int b);
 	int GetbulletCount() const { return bulletCount; }
 	int Getbullettotal() const { return totalCount; }
+
+	void SetbulletCount(int b);
 };
 

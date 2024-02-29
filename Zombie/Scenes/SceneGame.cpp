@@ -114,7 +114,7 @@ void SceneGame::Enter()
 	TileMap* tileMap = dynamic_cast<TileMap*>(FindGo("Background"));
 	tileMap->SetPosition({ 0.f, 0.f });
 	tileMap->SetOrigin(Origins::MC);
-	player->SetPosition({ -1000.f, -1000.f });
+	player->SetPosition( centerPos );
 
 	Scene::Enter();
 	hud->SetScore(0);

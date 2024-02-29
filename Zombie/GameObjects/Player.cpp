@@ -186,9 +186,9 @@ void Player::OnItem(Item* item)
 	switch (item->GetType())
 	{
 	case Item::Types::Ammo:
-		ammo += item->GetValue();
-		sceneGame->GetHud()->SetAmmo(sceneGame->GetHud()->GetbulletCount()
-			, sceneGame->GetHud()->Getbullettotal() + 20);
+		ammo = item->GetValue();
+		sceneGame->GetHud()->SetbulletCount(ammo);
+		sceneGame->GetHud()->SetAmmo(sceneGame->GetHud()->GetbulletCount(), sceneGame->GetHud()->Getbullettotal());
 		break;
 	case Item::Types::Health:
 		hp += item->GetValue();

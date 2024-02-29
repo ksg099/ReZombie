@@ -144,3 +144,8 @@ void UiHud::minusbullet(int b)
 	bulletCount -= b;
 	SetAmmo(bulletCount, totalCount);
 }
+
+void UiHud::SetbulletCount(int b)
+{
+	totalCount += b;
+}

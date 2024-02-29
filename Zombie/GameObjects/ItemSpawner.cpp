@@ -13,7 +13,7 @@ GameObject* ItemSpawner::Create()
     switch (itemType)
     {
     case Item::Types::Ammo:
-        value = 10;
+        value = 30;
         break;
     case Item::Types::Health:
         value = 50;
