@@ -36,6 +36,7 @@ public:
 	void PlaySfx(sf::SoundBuffer& buffer, bool loop = false);
 
 	void StopAllSfx();
+	float GetBgmVolume() { return bgmVolume; }
 
 };
 

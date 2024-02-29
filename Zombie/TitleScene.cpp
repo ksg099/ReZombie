@@ -45,6 +45,7 @@ void TitleScene::Update(float dt)
 	worldView.setSize(windowSize);
 	worldView.setCenter({ centerPos });
 
+
 	if (InputMgr::GetKeyDown(sf::Keyboard::Enter))
 	{
 		SCENE_MGR.ChangeScene(SceneIds::SceneGame);
