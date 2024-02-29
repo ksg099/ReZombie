@@ -220,6 +220,10 @@ void SceneGame::Update(float dt)
 		{
 			ZombieClear();
 		}
+		if (InputMgr::GetKeyDown(sf::Keyboard::Delete))
+		{
+			ZombieClear();
+		}
 		break;
 	case SceneGame::Status::NextWave:
 		SetStatus(Status::Title);
