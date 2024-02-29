@@ -15,6 +15,7 @@ protected:
 
 	float fireInterval = 0.5f;
 	float bulletSpeed = 1000.f;
+
 	int bulletDamage = 20;
 
 	int maxHp = 200;

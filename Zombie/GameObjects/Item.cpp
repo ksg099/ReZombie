@@ -16,6 +16,9 @@ Item* Item::Create(Types t, int v)
     case Types::Health:
         newItem->textureId = "graphics/health_pickup.png";
         break;
+    case Types::None:
+        newItem->textureId = "";
+        break;
     }
 
     return newItem;
@@ -28,8 +31,10 @@ Item::Item(const std::string& name) : SpriteGo(name)
 void Item::Reset()
 {
     SpriteGo::Reset();
+    time = 0.f;
 
     player = dynamic_cast<Player*>(SCENE_MGR.GetCurrentScene()->FindGo("Player"));
+    SetOrigin(Origins::MC);
 }
 
 void Item::FixedUpdate(float dt)
@@ -38,6 +43,16 @@ void Item::FixedUpdate(float dt)
 
     if (player == nullptr)
         return;
+
+    time += dt;
+    if (time > duration)
+    {
+        SetActive(false);
+        SCENE_MGR.GetCurrentScene()->RemoveGo(this);
+        return;
+    }
+
+
 
     if (GetGlobalBounds().intersects(player->GetGlobalBounds()))
     {

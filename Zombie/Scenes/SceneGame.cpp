@@ -51,15 +51,19 @@ sf::Vector2f SceneGame::ClampByTileMap(const sf::Vector2f& point)
 
 void SceneGame::Init()
 {
-	spawners.push_back(new ZombieSpawner());
-	spawners.push_back(new ItemSpawner());
+	zspawners.push_back(new ZombieSpawner());
+	ispawners.push_back(new ItemSpawner("itemspawner"));
 
-	for (auto s : spawners)
+	for (auto s : zspawners)
 	{
 		s->SetPosition({ 0.f, 0.f });
 		AddGo(s);
 	}
-
+	for (auto s : ispawners)
+	{
+		s->SetPosition({ 0.f, 0.f });
+		AddGo(s);
+	}
 	player = new Player("Player");
 	AddGo(player);
 
@@ -118,12 +122,22 @@ void SceneGame::Enter()
 
 	Scene::Enter();
 	hud->SetScore(0);
+	hud->SetHiScore(0);
+	hud->SetAmmo(5, 20);
+	
+	SetStatus(Status::Playing);
+	zspawners[0]->SetActive(false);
+	zspawners[0]->Spawn(5);
 	hud->SetHiScore(this->HiScore);
 	hud->SetAmmo(20, 40);
 
+	upui->AddFireCount(0);
+	upui->AddSpeedCount(0);
+	upui->AddHealthCount(0);
+
 	SetStatus(Status::Title);
-	spawners[0]->SetActive(false);
-	spawners[0]->Spawn(5);
+	zspawners[0]->SetActive(false);
+	zspawners[0]->Spawn(5);
 	wave = 1;
 	hud->SetWave(wave);
 	hud->SetFps(0);
@@ -183,23 +197,26 @@ void SceneGame::Update(float dt)
 	case SceneGame::Status::Title:
 		if (InputMgr::GetKeyDown(sf::Keyboard::Num1))
 		{
-			player->UpgradefireInterval(0.05f);
+			player->UpgradefireInterval(0.04f);
 			upui->SetActive(false);
 			SetStatus(Status::Playing);
+			upui->AddFireCount(1);
 		}
 		else if (InputMgr::GetKeyDown(sf::Keyboard::Num2))
 		{
 			player->UpgradeSpeed(40.f);
 			upui->SetActive(false);
 			SetStatus(Status::Playing);
+			upui->AddSpeedCount(1);
 		}
 		else if (InputMgr::GetKeyDown(sf::Keyboard::Num3))
 		{
-			player->UpgradeMaxHp(25);
+			player->UpgradeMaxHp(30);
 			upui->SetActive(false);
 			SetStatus(Status::Playing);
+			upui->AddHealthCount(1);
 		}
-			
+
 		break;
 	case SceneGame::Status::Playing:
 		if (zombieList.size() == 0)
@@ -226,9 +243,15 @@ void SceneGame::Update(float dt)
 		}
 		break;
 	case SceneGame::Status::NextWave:
+		if (InputMgr::GetKeyDown(sf::Keyboard::Space))
+		{
+			SetStatus(Status::Playing);
+			hud->SetWave(++wave);
+			zspawners[0]->Spawn(5 * wave);
+		}
 		SetStatus(Status::Title);
 		hud->SetWave(++wave);
-		spawners[0]->Spawn(5 * wave);
+		zspawners[0]->Spawn(5 * wave);
 		break;
 	case SceneGame::Status::GameOver:
 

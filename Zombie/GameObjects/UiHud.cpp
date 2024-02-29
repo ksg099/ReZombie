@@ -22,6 +22,7 @@ void UiHud::SetHiScore(int s)
 
 void UiHud::SetAmmo(int current, int total)
 {
+
 	bulletCount = current;
 	totalCount = total;
 	textAmmo.SetString(std::to_string(current) + "/" + std::to_string(total));
@@ -137,6 +138,11 @@ void UiHud::Draw(sf::RenderWindow& window)
 		uiFps.Draw(window);
 	}
 
+}
+
+void UiHud::SetBulletCount(int b)
+{
+	totalCount += b;
 }
 
 void UiHud::minusbullet(int b)

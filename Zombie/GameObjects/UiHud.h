@@ -25,15 +25,18 @@ protected:
 	TextGo textZombieCount;
 	TextGo uiFps;
 
-	sf::Vector2f gaugeHpSize = { 400.f, 50.f };
+	sf::Vector2f gaugeHpSize = { 300.f, 25.f };
 
 	sf::Vector2f referenceResolution = { 1920.f, 1080.f };
 	sf::Vector2f resolution = referenceResolution;
+
 
 	bool isChecking = true;
 
 	int bulletCount = 6;
 	int totalCount = 24;
+
+
 
 public:
 	UiHud(const std::string& name = "");
@@ -56,6 +59,7 @@ public:
 	void Reset() override;
 	void Draw(sf::RenderWindow& window) override;
 
+	void SetBulletCount(int b);
 	void minusbullet(int b);
 	int GetbulletCount() const { return bulletCount; }
 	int Getbullettotal() const { return totalCount; }
