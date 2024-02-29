@@ -34,7 +34,8 @@ void Player::Reset()
 	isFiring = false;
 	fireTimer = fireInterval;
 
-	hp = maxHp;
+	hp = 100;
+	maxHp = 100;
 	sceneGame->GetHud()->SetHp(hp, maxHp);
 	sceneGame->GetHud()->SetAmmo(currentAmmo, total);
 
@@ -47,6 +48,21 @@ void Player::Reset()
 void Player::Update(float dt)
 {
 	SpriteGo::Update(dt);
+
+	if (InputMgr::GetKeyDown(sf::Keyboard::R)) {
+
+		int count = sceneGame->GetHud()->GetbulletCount();
+		int total = sceneGame->GetHud()->Getbullettotal();
+		if (total == 0)
+			return;
+		if (count >= 0 && count <= 20)
+		{
+			total -= 20;
+			count = 20;
+		}
+		sceneGame->GetHud()->SetAmmo(count, total);
+	}
+
 
 	sf::Vector2i mousePos = (sf::Vector2i)InputMgr::GetMousePos();
 	sf::Vector2f mouseWorldPos = SCENE_MGR.GetCurrentScene()->ScreenToWorld(mousePos);
@@ -87,7 +103,7 @@ void Player::Update(float dt)
 		fireTimer = 0.f;
 	}
 
-	if (isNoDamage)
+	if (isNoDamage && !testMode)
 	{
 		noDamageTimer += dt;
 		if (noDamageTimer > noDamageTime)
@@ -95,6 +111,17 @@ void Player::Update(float dt)
 			isNoDamage = false;
 		}
 	}
+	if (InputMgr::GetKeyDown(sf::Keyboard::F3))
+	{
+		testMode = true;
+		isNoDamage = true;
+	}
+	if (InputMgr::GetKeyDown(sf::Keyboard::F4))
+	{
+		testMode = false;
+		isNoDamage = false;
+	}
+
 }
 
 void Player::Draw(sf::RenderWindow& window)
@@ -119,7 +146,24 @@ void Player::Fire()
 		sceneGame->GetHud()->SetAmmo(currentAmmo, total);
 	}
 	
+	if (sceneGame->GetHud()->GetbulletCount() <= 0)
+		return;
+	Bullet* bullet = new Bullet();
+	bullet->Init();
+	bullet->Reset();
+	bullet->SetPosition(position);
+	bullet->Fire(look, bulletSpeed, bulletDamage);
+	sceneGame->AddGo(bullet);
 
+	sceneGame->GetHud()->minusbullet(1);
+
+	SOUND_MGR.PlaySfx("sound/shoot.wav");
+
+	//수정
+	std::cout <<"발사속도 : "<< fireInterval << std::endl;
+	std::cout << "플레이어 속도 : " << speed << std::endl;
+	std::cout << "MaxHp : " << maxHp << std::endl;
+	std::cout << "Hp : " << hp << std::endl;
 
 }
 
@@ -162,7 +206,52 @@ void Player::OnItem(Item* item)
 		break;
 	case Item::Types::Health:
 		hp += item->GetHealValue();
+		ammo += item->GetValue();
+		sceneGame->GetHud()->SetAmmo(sceneGame->GetHud()->GetbulletCount()
+			, sceneGame->GetHud()->Getbullettotal() + 20);
+		break;
+	case Item::Types::Health:
+		hp += item->GetValue();
+		if (hp >= maxHp)
+		{
+			hp = maxHp;
+		}
 		sceneGame->GetHud()->SetHp(hp, maxHp);
 		break;
 	}
+}
+
+void Player::UpgradefireInterval(float f)
+{
+	if (fireInterval > 0.1f)
+	{
+		this->fireInterval -= f;
+		if (fireInterval < 0.1f)
+		{
+			this->fireInterval = 0.1f;
+		}
+	}
+}
+
+void Player::UpgradeSpeed(float s)
+{
+	if (speed < 601.f)
+	{
+		this->speed += s;
+	}
+}
+
+void Player::UpgradeMaxHp(int h)
+{
+	if (maxHp < 401)
+	{
+		this->maxHp += h;
+	}
+}
+
+void Player::PlayerSetStat(float f, float s, int h)
+{
+	maxHp = h;
+	speed = s;
+	fireInterval = f;
 }

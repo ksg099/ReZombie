@@ -9,22 +9,23 @@ class Player : public SpriteGo
 protected:
 	sf::Vector2f direction = { 0.f, 0.f };
 	sf::Vector2f look = { 1.0f, 0.f };
-	float speed = 500.f;
+	float speed = 200.f;
 
 	SceneGame* sceneGame = nullptr;
 
-	float fireInterval = 0.1f;
+	float fireInterval = 0.5f;
 	float bulletSpeed = 1000.f;
-	int bulletDamage = 100;
 
-	int maxHp = 1000;
-	int hp = maxHp;
-	int maxAmmo = 20;
-	int total = currentAmmo + maxAmmo;
-	int currentAmmo = maxAmmo;
+	int bulletDamage = 20;
+
+	int maxHp = 200;
+	int hp = 10;
+	int maxAmmo = 40;
+	int ammo = 20;
 
 	bool isAlive = true;
 	bool isNoDamage = false;
+	bool testMode = false;
 	float noDamageTime = 0.5f;
 	float noDamageTimer = 0.f;
 
@@ -46,5 +47,12 @@ public:
 	void OnDamage(int damage);
 	void OnDie();
 	void OnItem(Item* item);
+
+	void UpgradefireInterval(float f);
+	void UpgradeSpeed(float s);
+	void UpgradeMaxHp(int h);
+	int GetHp() { return hp; }
+	void PlayerSetStat(float f, float s, int h);
+	
 };
 

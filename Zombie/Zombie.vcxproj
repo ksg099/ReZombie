@@ -173,6 +173,10 @@
     <ClCompile Include="GameObjects\SpriteGoEffect.cpp" />
     <ClCompile Include="DataTable\StringTable.cpp" />
     <ClCompile Include="DataTable\ZombieTable.cpp" />
+    <ClCompile Include="TitleScene.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="Upgrade.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataTable\DataTableMgr.h" />
@@ -206,6 +210,10 @@
     <ClInclude Include="GameObjects\SpriteGoEffect.h" />
     <ClInclude Include="DataTable\StringTable.h" />
     <ClInclude Include="DataTable\ZombieTable.h" />
+    <ClInclude Include="TitleScene.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="Upgrade.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -95,18 +95,21 @@ void Zombie::OnDamage(int damage)
 		return;
 
 	hp -= damage;
+	SOUND_MGR.PlaySfx("sound/hit.wav");
 	if (hp <= 0)
 	{
 		hp = 0;
 		OnDie();
+		sceneGame->AddScore(10);
+		sceneGame->AddHiScore(10);
 	}
 }
 
 void Zombie::OnDie()
-{
+{ 
 	if (!isAlive)
 		return;
-
+	SOUND_MGR.PlaySfx("sound/splat.wav");
 	isAlive = false;
 	SetActive(false);
 	sceneGame->RemoveGo(this);

@@ -11,6 +11,10 @@ protected:
 	std::string formatWave = "WAVE: ";
 	std::string formatZombieCount = "ZOMBIES: ";
 
+	//업그레이드
+	
+
+
 	TextGo textScore;
 	TextGo textHiScore;
 
@@ -19,16 +23,18 @@ protected:
 	sf::RectangleShape gaugeHp;
 	TextGo textWave;
 	TextGo textZombieCount;
+	TextGo uiFps;
 
 	sf::Vector2f gaugeHpSize = { 300.f, 25.f };
 
 	sf::Vector2f referenceResolution = { 1920.f, 1080.f };
 	sf::Vector2f resolution = referenceResolution;
 
-	int total = 0;
-	int score = 0;
-	int wave = 0;
-	int zombie = 0;
+
+	bool isChecking = true;
+
+	int bulletCount = 6;
+	int totalCount = 24;
 
 public:
 	UiHud(const std::string& name = "");
@@ -44,8 +50,15 @@ public:
 	void SetWave(int w);
 	void SetZombieCount(int countammo);
 
+	void SetFps(int fps);
+	void Update(float dt);
+
 	void Init() override;
 	void Reset() override;
 	void Draw(sf::RenderWindow& window) override;
+
+	void minusbullet(int b);
+	int GetbulletCount() const { return bulletCount; }
+	int Getbullettotal() const { return totalCount; }
 };
 
