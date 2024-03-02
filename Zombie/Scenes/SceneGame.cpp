@@ -55,7 +55,8 @@ sf::Vector2f SceneGame::ClampByTileMap(const sf::Vector2f& point)
 void SceneGame::Init()
 {
 	zspawners.push_back(new ZombieSpawner());
-	ispawners.push_back(new ItemSpawner("itemspawner"));
+	value = new ItemSpawner("itemspawner");
+	ispawners.push_back(value);
 
 	for (auto s : zspawners)
 	{
@@ -245,7 +246,7 @@ void SceneGame::Update(float dt)
 		}
 		else if (InputMgr::GetKeyDown(sf::Keyboard::Num5) && upui->GetMagazineCount() < 5)
 		{
-			value->GetAmmovalue(6);
+			value->Ammovalue += 6;
 			upui->SetActive(false);
 			SetStatus(Status::Playing);
 			upui->AddMagazineCount(1);
