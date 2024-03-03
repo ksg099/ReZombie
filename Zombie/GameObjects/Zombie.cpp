@@ -4,6 +4,9 @@
 #include "SpriteGoEffect.h"
 #include "ZombieTable.h"
 #include "UiHud.h"
+#include "ItemSpawner.h"
+#include "UiHud.h"
+#include "Item.h"
 
 Zombie* Zombie::Create(Types zombieType)
 {
@@ -42,7 +45,8 @@ void Zombie::Reset()
 
 	player = dynamic_cast<Player*>(SCENE_MGR.GetCurrentScene()->FindGo("Player"));
 	sceneGame = dynamic_cast<SceneGame*>(SCENE_MGR.GetCurrentScene());
-
+	itemspawner = dynamic_cast<ItemSpawner*>(SCENE_MGR.GetCurrentScene()->FindGo("itemspawner")); //
+	
 	isAlive = true;
 	hp = maxHp;
 	attackTimer = attackInterval;
@@ -92,6 +96,7 @@ void Zombie::OnDamage(int damage)
 		return;
 
 	hp -= damage;
+	SOUND_MGR.PlaySfx("sound/hit.wav");
 	if (hp <= 0)
 	{
 		hp = 0;
@@ -102,13 +107,16 @@ void Zombie::OnDamage(int damage)
 }
 
 void Zombie::OnDie()
-{
+{ 
 	if (!isAlive)
 		return;
-
+	SOUND_MGR.PlaySfx("sound/splat.wav");
 	isAlive = false;
 	SetActive(false);
 	sceneGame->RemoveGo(this);
+
+	itemspawner->OnDrop(position);
+	
 
 	PlayBloodEffect();
 }

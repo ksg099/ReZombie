@@ -6,6 +6,7 @@
 #include "ZombieSpawner.h"
 #include "ItemSpawner.h"
 #include "UiHud.h"
+#include "Upgrade.h"
 
 
 SceneGame::SceneGame(SceneIds id)
@@ -19,10 +20,19 @@ void SceneGame::SetStatus(Status newStatus)
 	currentStatus = newStatus;
 	switch (currentStatus)
 	{
+	case SceneGame::Status::Title:
+		FRAMEWORK.SetTimeScale(0.f);
+		break;
 	case SceneGame::Status::Playing:
 		FRAMEWORK.SetTimeScale(1.f);
 		break;
 	case SceneGame::Status::NextWave:
+		FRAMEWORK.SetTimeScale(0.f);
+		break;
+	case SceneGame::Status::GameOver:
+		FRAMEWORK.SetTimeScale(0.f);
+		break;
+	case SceneGame::Status::Pause:
 		FRAMEWORK.SetTimeScale(0.f);
 		break;
 	}
@@ -45,15 +55,20 @@ sf::Vector2f SceneGame::ClampByTileMap(const sf::Vector2f& point)
 
 void SceneGame::Init()
 {
-	spawners.push_back(new ZombieSpawner());
-	spawners.push_back(new ItemSpawner());
+	zspawners.push_back(new ZombieSpawner());
+	value = new ItemSpawner("itemspawner");
+	ispawners.push_back(value);
 
-	for (auto s : spawners)
+	for (auto s : zspawners)
 	{
-		s->SetPosition({ 0.f, 0.f});
+		s->SetPosition({ 0.f, 0.f });
 		AddGo(s);
 	}
-
+	for (auto i : ispawners)
+	{
+		i->SetPosition({ 0.f, 0.f });
+		AddGo(i);
+	}
 	player = new Player("Player");
 	AddGo(player);
 
@@ -70,6 +85,23 @@ void SceneGame::Init()
 
 	hud = new UiHud("Hud");
 	AddGo(hud, Scene::Layers::Ui);
+
+	upui = new Upgrade("UP");
+	AddGo(upui, Scene::Layers::Ui);
+
+	uiText = new TextGo("text");
+	uiText->Set(fontResMgr.Get("fonts/zombiecontrol.ttf"), "", 120, sf::Color::Red);
+	uiText->SetOrigin(Origins::MC);
+	uiText->SetString("Game Over!");
+	uiText->SetActive(false);
+	AddGo(uiText,Layers::Ui);
+
+	uiMsg = new TextGo("msg");
+	uiMsg->Set(fontResMgr.Get("fonts/zombiecontrol.ttf"), "", 75, sf::Color::White);
+	uiMsg->SetOrigin(Origins::MC);
+	uiMsg->SetString("Press Enter To Restart");
+	uiMsg->SetActive(false);
+	AddGo(uiMsg, Layers::Ui);
 
 	LoadHiScore();
 
@@ -95,19 +127,35 @@ void SceneGame::Enter()
 	TileMap* tileMap = dynamic_cast<TileMap*>(FindGo("Background"));
 	tileMap->SetPosition({ 0.f, 0.f });
 	tileMap->SetOrigin(Origins::MC);
-	player->SetPosition({ -1000.f, -1000.f });
+	player->SetPosition({0, 0});
 
 	Scene::Enter();
-
 	hud->SetScore(0);
 	hud->SetHiScore(this->HiScore);
 	hud->SetAmmo(0, 0);
+	hud->SetHiScore(0);
+	hud->SetAmmo(5, 20);
 	
 	SetStatus(Status::Playing);
-	spawners[0]->SetActive(false);
-	spawners[0]->Spawn(5);
+	zspawners[0]->SetActive(false);
+	zspawners[0]->Spawn(5);
+	hud->SetHiScore(this->HiScore);
+	hud->SetAmmo(20, 40);
+
+	upui->AddFireCount(0);
+	upui->AddSpeedCount(0);
+	upui->AddHealthCount(0);
+	upui->AddFireDamageCount(0);
+	upui->AddMagazineCount(0);
+
+	SetStatus(Status::Title);
+	zspawners[0]->SetActive(false);
 	wave = 1;
 	hud->SetWave(wave);
+	hud->SetFps(0);
+
+	uiText->SetPosition({ centerPos.x,centerPos.y - 100.f });
+	uiMsg->SetPosition({ centerPos.x,centerPos.y + 100.f });
 }
 
 void SceneGame::Exit()
@@ -116,13 +164,48 @@ void SceneGame::Exit()
 	FRAMEWORK.GetWindow().setMouseCursorVisible(true);
 }
 
+void SceneGame::Reset()
+{
+	player->SetActive(true);
+	wave = 1;
+	hud->SetWave(wave);
+	player->PlayerSetStat(0.5, 200, 100);
+	auto& list = GetZombieList();
+	for (auto Go : list)
+	{
+		if (!Go->GetActive())
+			continue;
+		Zombie* zombie = dynamic_cast<Zombie*>(Go);
+		if (zombie != nullptr)
+		{
+			RemoveGo(zombie);
+		}
+	}
+	uiMsg->SetActive(false);
+	uiText->SetActive(false);
+}
+
 void SceneGame::Update(float dt)
 {
+
 	FindGoAll("Zombie", zombieList, Layers::World);
+
 	hud->SetZombieCount(zombieList.size());
+	SetHitBox();
 
 	Scene::Update(dt);
-	
+
+	timer += dt;
+	++fpsCount;
+
+	if (timer >= 1)
+	{
+		fps = fpsCount;
+		timer = 0;
+		fpsCount = 0;
+	}
+	hud->SetFps(fps);
+
 	crosshair->SetPosition(ScreenToUi((sf::Vector2i)InputMgr::GetMousePos()));
 
 	sf::Vector2f worldViewCenter = worldView.getCenter();
@@ -131,21 +214,83 @@ void SceneGame::Update(float dt)
 
 	switch (currentStatus)
 	{
+	case SceneGame::Status::Title:
+		if (InputMgr::GetKeyDown(sf::Keyboard::Num1) && upui->GetFireCount() < 10)
+		{
+			player->UpgradefireInterval(0.04f);
+			upui->SetActive(false);
+			SetStatus(Status::Playing);
+			upui->AddFireCount(1);
+		}
+		else if (InputMgr::GetKeyDown(sf::Keyboard::Num2) && upui->GetSpeedCount() < 10)
+		{
+			player->UpgradeSpeed(40.f);
+			upui->SetActive(false);
+			SetStatus(Status::Playing);
+			upui->AddSpeedCount(1);
+		}
+		else if (InputMgr::GetKeyDown(sf::Keyboard::Num3) && upui->GetHealthCount() < 10)
+		{
+			player->UpgradeMaxHp(30);
+			upui->SetActive(false);
+			SetStatus(Status::Playing);
+			upui->AddHealthCount(1);
+		}
+		else if (InputMgr::GetKeyDown(sf::Keyboard::Num4) && upui->GetFireDamageCount() < 5)
+		{
+			player->UpgradeFireDamage(10);
+			upui->SetActive(false);
+			SetStatus(Status::Playing);
+			upui->AddFireDamageCount(1);
+		}
+		else if (InputMgr::GetKeyDown(sf::Keyboard::Num5) && upui->GetMagazineCount() < 5)
+		{
+			value->Ammovalue += 6;
+			upui->SetActive(false);
+			SetStatus(Status::Playing);
+			upui->AddMagazineCount(1);
+		}
+		break;
 	case SceneGame::Status::Playing:
+		if (InputMgr::GetKeyDown(sf::Keyboard::Escape))
+		{
+			SetStatus(Status::Pause);
+		}
 		if (zombieList.size() == 0)
 		{
 			SetStatus(Status::NextWave);
+			upui->SetActive(true);
+		}
+		if (InputMgr::GetKeyDown(sf::Keyboard::Space))
+		{
+			player->OnDie();
+			SetStatus(Status::GameOver);
+		}
+		if (player->GetHp() <= 0)
+		{
+			SetStatus(Status::GameOver);
+		}
+		if (InputMgr::GetKeyDown(sf::Keyboard::Delete))
+		{
+			ZombieClear();
 		}
 		break;
 	case SceneGame::Status::NextWave:
-		if (InputMgr::GetKeyDown(sf::Keyboard::Space))
-		{
-			SetStatus(Status::Playing);
-			hud->SetWave(++wave);
-			spawners[0]->Spawn(5 * wave);
-		}
-
+		player->SetPosition({ 0, 0 });
+		SetStatus(Status::Title);
+		hud->SetWave(++wave);
+		zspawners[0]->Spawn(5 * wave);
 		break;
+	case SceneGame::Status::GameOver:
+		uiMsg->SetActive(true);
+		uiText->SetActive(true);
+		if (InputMgr::GetKeyDown(sf::Keyboard::Enter))
+		{
+			SCENE_MGR.ChangeScene(SceneIds::TitleScene);
+			SetStatus(Status::Title);
+			upui->SetActive(true);
+			Reset();
+		}
 	}
 }
 
@@ -198,6 +343,40 @@ void SceneGame::LoadHiScore()
 	}
 }
 
+<<<<<<< HEAD
 
 
 
+=======
+void SceneGame::ZombieClear()
+{
+	auto& list = GetZombieList();
+	for (auto Go : list)
+	{
+		if (!Go->GetActive())
+			continue;
+		Zombie* zombie = dynamic_cast<Zombie*>(Go);
+		if (zombie != nullptr)
+		{
+			zombie->OnDie();
+		}
+	}
+}
+
+void SceneGame::SetHitBox()
+{
+	
+	player->GetHitBox();
+	auto& list = GetZombieList();
+	for (auto Go : list)
+	{
+		if (!Go->GetActive())
+			continue;
+		Zombie* zombie = dynamic_cast<Zombie*>(Go);
+		if (zombie != nullptr)
+		{
+			zombie->GetHitBox();
+		}
+	}
+}
+>>>>>>> origin/feature

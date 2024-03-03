@@ -8,7 +8,7 @@ protected:
 
 	float interval = 1.f;
 	int spawnCount = 1;
-	float radius = 250.f;
+	float radius = 1000.f;
 
 	float timer = 0.f;
 

@@ -18,8 +18,9 @@ public:
 
 protected:
 	Types type = Types::None;
+	float time = 0.f;
+	float duration = 5.f;
 	int value = 0;
-
 	Player* player = nullptr;
 
 	Item(const std::string& name = "");
@@ -29,6 +30,7 @@ public:
 
 	Types GetType() const { return type; }
 	int GetValue() const { return value; }
+
 
 	void Reset() override;
 	void FixedUpdate(float dt) override;

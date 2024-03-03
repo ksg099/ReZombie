@@ -9,7 +9,7 @@ Spawner::Spawner(const std::string& name)
 
 void Spawner::Spawn()
 {
-	sf::Vector2f pos = position + Utils::RandomInUnitCircle() * radius;
+	sf::Vector2f pos = position + Utils::RandomOnUnitCircle() * radius;
 	if (sceneGame != nullptr)
 	{
 		pos = sceneGame->ClampByTileMap(pos);
@@ -46,7 +46,7 @@ void Spawner::Reset()
 
 	interval = 1.f;
 	spawnCount = 1;
-	radius = 250.f;
+	radius = 500.f;
 
 	timer = 0.f;
 
