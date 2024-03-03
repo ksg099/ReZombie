@@ -344,11 +344,6 @@ void SceneGame::LoadHiScore()
 	}
 }
 
-<<<<<<< HEAD
-
-
-
-=======
 void SceneGame::ZombieClear()
 {
 	auto& list = GetZombieList();
@@ -380,4 +375,3 @@ void SceneGame::SetHitBox()
 		}
 	}
 }
->>>>>>> origin/feature
