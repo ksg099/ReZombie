@@ -47,6 +47,8 @@ void Upgrade::Reset()
 	FireCount = 0;
 	SpeedCount = 0;
 	HealthCount = 0;
+	FireDamageCount = 0;
+	MagazineCount = 0;
 }
 
 void Upgrade::Draw(sf::RenderWindow& window)

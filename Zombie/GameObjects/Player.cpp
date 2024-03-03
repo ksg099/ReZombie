@@ -55,10 +55,18 @@ void Player::Update(float dt)
 		int total = sceneGame->GetHud()->Getbullettotal();
 		if (total == 0)
 			return;
-		if (count >= 0 && count <= 20)
+		if (count >= 0 && count < 20)
 		{
-			total -= 20;
-			count = 20;
+			if (total >= 20)
+			{
+				count = 20;
+				total -= 20;
+			}
+			else
+			{
+				count = total;
+				total = 0;
+			}
 		}
 		sceneGame->GetHud()->SetAmmo(count, total);
 	}

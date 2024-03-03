@@ -275,10 +275,6 @@ void SceneGame::Update(float dt)
 		{
 			ZombieClear();
 		}
-		if (InputMgr::GetKeyDown(sf::Keyboard::Escape))
-		{
-			FRAMEWORK.GetWindow().close();
-		}
 		break;
 	case SceneGame::Status::NextWave:
 		player->SetPosition({ 0, 0 });

@@ -35,9 +35,6 @@ protected:
 
 	int bulletCount = 6;
 	int totalCount = 24;
-
-
-
 public:
 	UiHud(const std::string& name = "");
 	~UiHud() override = default;
