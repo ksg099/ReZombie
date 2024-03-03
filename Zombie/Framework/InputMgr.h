@@ -41,6 +41,7 @@ public:
 	static bool GetKeyDown(sf::Keyboard::Key key);
 	static bool GetKeyUp(sf::Keyboard::Key key);
 	static bool GetKey(sf::Keyboard::Key key);
+	static bool AnyKeyDown();
 
 	static sf::Vector2f GetMousePos()
 	{

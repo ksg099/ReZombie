@@ -17,3 +17,9 @@ enum class Languages
 	Korean,
 	English,
 };
+
+enum class Pause
+{
+	ReStart,
+	Exit,
+};

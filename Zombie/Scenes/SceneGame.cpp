@@ -88,6 +88,28 @@ void SceneGame::Init()
 
 	upui = new Upgrade("UP");
 	AddGo(upui, Scene::Layers::Ui);
+ 
+	exitMsg = new TextGo("exit");
+	exitMsg->Set(fontResMgr.Get("fonts/zombiecontrol.ttf"), "", 90, sf::Color::Black);
+	exitMsg->SetOrigin(Origins::MC);
+	exitMsg->SetString("Exit? Then Press Esc");
+	exitMsg->SetActive(false);
+	AddGo(exitMsg, Layers::Ui);
+
+
+	restartMsg = new TextGo("restart");
+	restartMsg->Set(fontResMgr.Get("fonts/zombiecontrol.ttf"), "", 90, sf::Color::Black);
+	restartMsg->SetOrigin(Origins::MC);
+	restartMsg->SetString("Restart? Then Press Enter");
+	restartMsg->SetActive(false);
+	AddGo(restartMsg, Layers::Ui);
+
+	pause = new TextGo("Pause");
+	pause->Set(fontResMgr.Get("fonts/zombiecontrol.ttf"), "", 120, sf::Color::Red);
+	pause->SetOrigin(Origins::MC);
+	pause->SetString("Pause");
+	pause->SetActive(false);
+	AddGo(pause, Layers::Ui);
 
 	uiText = new TextGo("text");
 	uiText->Set(fontResMgr.Get("fonts/zombiecontrol.ttf"), "", 120, sf::Color::Red);
@@ -156,6 +178,11 @@ void SceneGame::Enter()
 
 	uiText->SetPosition({ centerPos.x,centerPos.y - 100.f });
 	uiMsg->SetPosition({ centerPos.x,centerPos.y + 100.f });
+
+	exitMsg->SetPosition({ centerPos.x,centerPos.y - 100.f });
+	restartMsg->SetPosition({ centerPos.x,centerPos.y + 100.f });
+	pause->SetPosition({ centerPos.x,centerPos.y - 300.f });
+
 }
 
 void SceneGame::Exit()
@@ -183,6 +210,9 @@ void SceneGame::Reset()
 	}
 	uiMsg->SetActive(false);
 	uiText->SetActive(false);
+	exitMsg->SetActive(false);
+	restartMsg->SetActive(false);
+	pause->SetActive(false);
 }
 
 void SceneGame::Update(float dt)
@@ -276,6 +306,51 @@ void SceneGame::Update(float dt)
 			ZombieClear();
 		}
 		break;
+	case SceneGame::Status::Pause:
+		pause->SetActive(true);
+		exitMsg->SetActive(true);
+		//restartMsg->SetActive(true);
+
+		if (InputMgr::GetKeyDown(sf::Keyboard::Escape))
+		{
+			SCENE_MGR.ChangeScene(SceneIds::TitleScene);
+			SetStatus(Status::Title);
+			upui->SetActive(true);
+			Reset();
+		}
+		break;
+		//else if (InputMgr::GetKeyDown(sf::Keyboard::Enter))
+		//{
+		//	//upui->Reset();
+		//	upui->SetActive(true);
+		//	Reset();
+		//	SetStatus(Status::Playing);
+		//}
+		//break;
+		//if (InputMgr::GetKeyDown(sf::Keyboard::Up))
+		//{
+		//	exitMsg->Set(fontResMgr.Get("fonts/zombiecontrol.ttf"), "", 70, sf::Color::Red);
+		//	restartMsg->Set(fontResMgr.Get("fonts/zombiecontrol.ttf"), "", 70, sf::Color::Black);
+
+		//	if (InputMgr::GetKeyDown(sf::Keyboard::Enter))
+		//	{
+		//		SCENE_MGR.ChangeScene(SceneIds::TitleScene);
+		//	}
+		//}
+		//break;
+
+		//if (InputMgr::GetKeyDown(sf::Keyboard::Down))
+		//{
+		//	restartMsg->Set(fontResMgr.Get("fonts/zombiecontrol.ttf"), "", 70, sf::Color::Red);
+		//	exitMsg->Set(fontResMgr.Get("fonts/zombiecontrol.ttf"), "", 70, sf::Color::Black);
+
+		//	if (InputMgr::GetKeyDown(sf::Keyboard::Enter))
+		//	{
+		//		SetStatus(Status::Playing);
+		//	}
+		//}
+		//break;
+
 	case SceneGame::Status::NextWave:
 		player->SetPosition({ 0, 0 });
 		SetStatus(Status::Title);
@@ -303,6 +378,7 @@ void SceneGame::FixedUpdate(float dt)
 
 void SceneGame::Draw(sf::RenderWindow& window)
 {
+	
 	Scene::Draw(window);
 }
 

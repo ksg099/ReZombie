@@ -26,6 +26,7 @@ public:
 	void Release();
 
 	void ChangeScene(SceneIds id);
+	Pause playMode = Pause::Exit;
 
 	Scene* GetCurrentScene() { return scenes[(int)currentScene]; }
 

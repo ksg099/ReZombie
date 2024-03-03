@@ -20,7 +20,7 @@ void TitleScene::Init()
 
 	uiText = new TextGo("uiText");
 	uiText->Set(fontResMgr.Get("fonts/zombiecontrol.ttf"), "", 75, sf::Color::White);
-	uiText->SetString("Press Enter To Start!");
+	uiText->SetString("Press AnyKey To Start!");
 	uiText->SetPosition({ 1920.f / 2, 1080.f - 200 });
 	uiText->SetOrigin(Origins::MC);
 	AddGo(uiText);
@@ -45,7 +45,7 @@ void TitleScene::Update(float dt)
 	worldView.setSize(windowSize);
 	worldView.setCenter({ centerPos });
 
-	if (InputMgr::GetKeyDown(sf::Keyboard::Enter))
+	if (InputMgr::AnyKeyDown())
 	{
 		SCENE_MGR.ChangeScene(SceneIds::SceneGame);
 	}

@@ -13,6 +13,8 @@ class SpriteGo;
 class Upgrade;
 class ItemSpawner;
 class TextGo;
+class UpGrade;
+
 class SceneGame : public Scene
 {
 public:
@@ -41,6 +43,10 @@ protected:
 	ItemSpawner* value;
 	TextGo* uiText;
 	TextGo* uiMsg;
+	TextGo* restartMsg;
+	TextGo* exitMsg;
+	TextGo* pause;
+
 	bool upUiScene = true;
 	
 	int wave = 1;
