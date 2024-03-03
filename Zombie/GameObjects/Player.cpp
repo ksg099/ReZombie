@@ -55,10 +55,15 @@ void Player::Update(float dt)
 		int total = sceneGame->GetHud()->Getbullettotal();
 		if (total == 0)
 			return;
-		if (count >= 0 && count <= 20)
+		if (total >= 20)
 		{
-			total -= 20;
 			count = 20;
+			total -= 20;
+		}
+		else
+		{
+			count = total;
+			total = 0;
 		}
 		sceneGame->GetHud()->SetAmmo(count, total);
 	}
@@ -144,6 +149,7 @@ void Player::Fire()
 	sceneGame->GetHud()->minusbullet(1);
 
 	SOUND_MGR.PlaySfx("sound/shoot.wav");
+	
 
 	//수정
 	std::cout <<"발사속도 : "<< fireInterval << std::endl;
@@ -159,6 +165,7 @@ void Player::OnDamage(int damage)
 		return;
 
 	hp -= damage;
+	SOUND_MGR.PlaySfx("sound/zombiehit.wav");
 	sceneGame->GetHud()->SetHp(hp, maxHp);
 
 	isNoDamage = true;
@@ -192,6 +199,7 @@ void Player::OnItem(Item* item)
 		sceneGame->GetHud()->SetBulletCount(ammo);
 		sceneGame->GetHud()->SetAmmo(sceneGame->GetHud()->GetbulletCount()
 			, sceneGame->GetHud()->Getbullettotal());
+		SOUND_MGR.PlaySfx("sound/pickup.wav");
 		break;
 	case Item::Types::Health:
 		hp += item->GetValue();
@@ -200,6 +208,7 @@ void Player::OnItem(Item* item)
 			hp = maxHp;
 		}
 		sceneGame->GetHud()->SetHp(hp, maxHp);
+		SOUND_MGR.PlaySfx("sound/pickup.wav");
 		break;
 	}
 }

@@ -212,6 +212,7 @@ void SceneGame::Update(float dt)
 	sf::Vector2f worldViewCenter = worldView.getCenter();
 	worldViewCenter = Utils::Lerp(worldViewCenter, player->GetPosition(), dt * 2.f);
 	worldView.setCenter(worldViewCenter);
+	
 
 	switch (currentStatus)
 	{
@@ -274,10 +275,6 @@ void SceneGame::Update(float dt)
 		if (InputMgr::GetKeyDown(sf::Keyboard::Delete))
 		{
 			ZombieClear();
-		}
-		if (InputMgr::GetKeyDown(sf::Keyboard::Escape))
-		{
-			FRAMEWORK.GetWindow().close();
 		}
 		break;
 	case SceneGame::Status::NextWave:

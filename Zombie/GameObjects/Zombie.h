@@ -30,6 +30,7 @@ protected:
 	float attackTimer = 0.f;
 
 	int hp;
+	
 
 	Player* player = nullptr;
 	SceneGame* sceneGame = nullptr;
@@ -38,7 +39,7 @@ protected:
 	sf::Vector2f direction;
 	bool isAlive = true;
 
-
+	
 
 	Zombie(const std::string& name = "");
 

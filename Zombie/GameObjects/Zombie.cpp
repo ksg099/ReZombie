@@ -31,6 +31,7 @@ void Zombie::Init()
 	SpriteGo::Init();
 	SetTexture(textureId);
 	SetOrigin(Origins::MC);
+	
 }
 
 void Zombie::Release()
@@ -57,17 +58,20 @@ void Zombie::Update(float dt)
 
 	if (!isAlive)
 		return;
-
 	direction = player->GetPosition() - position;
 	Utils::Normalize(direction);
 
 	SetRotation(Utils::Angle(direction));
 	sf::Vector2f pos = position + direction * speed * dt;
+	
+
 	if (sceneGame != nullptr)
 	{
 		pos = sceneGame->ClampByTileMap(pos);
+		
 	}
 	SetPosition(pos);
+	
 }
 
 void Zombie::FixedUpdate(float dt)

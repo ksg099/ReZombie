@@ -25,7 +25,7 @@ void TitleScene::Init()
 	uiText->SetOrigin(Origins::MC);
 	AddGo(uiText);
 
-	SOUND_MGR.PlayBgm("sound/MainBgm.wav", true);
+	SOUND_MGR.PlayBgm("sound/mainBgm.wav", true);
 }
 
 void TitleScene::Release()
