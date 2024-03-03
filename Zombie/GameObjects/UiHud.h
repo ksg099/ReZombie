@@ -7,11 +7,11 @@ class UiHud : public GameObject
 {
 protected:
 	std::string formatScore = "SCORE: ";
-	std::string formatHighScore =	"HIGH SCORE: ";
+	std::string formatHighScore = "HIGH SCORE: ";
 	std::string formatWave = "WAVE: ";
 	std::string formatZombieCount = "ZOMBIES: ";
 
-	//¾÷±×·¹ÀÌµå
+	//ï¿½ï¿½ï¿½×·ï¿½ï¿½Ìµï¿½
 	
 
 
@@ -31,12 +31,10 @@ protected:
 	sf::Vector2f resolution = referenceResolution;
 
 
-	bool isChecking = true;
+	bool isChecking = false;
 
 	int bulletCount = 6;
 	int totalCount = 24;
-
-
 
 public:
 	UiHud(const std::string& name = "");
@@ -46,7 +44,7 @@ public:
 
 	void SetScore(int s);
 	void SetHiScore(int s);
-	
+
 	void SetAmmo(int current, int total);
 	void SetHp(int hp, int max);
 	void SetWave(int w);
@@ -63,5 +61,6 @@ public:
 	void minusbullet(int b);
 	int GetbulletCount() const { return bulletCount; }
 	int Getbullettotal() const { return totalCount; }
+
 };
 

@@ -58,6 +58,5 @@ public:
 
 	int GetHp() { return hp; }
 	void PlayerSetStat(float f, float s, int h);
-	
 };
 

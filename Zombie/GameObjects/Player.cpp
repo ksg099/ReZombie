@@ -55,6 +55,7 @@ void Player::Update(float dt)
 		int total = sceneGame->GetHud()->Getbullettotal();
 		if (total == 0)
 			return;
+<<<<<<< HEAD
 		if (total >= 20)
 		{
 			count = 20;
@@ -64,6 +65,20 @@ void Player::Update(float dt)
 		{
 			count = total;
 			total = 0;
+=======
+		if (count >= 0 && count < 20)
+		{
+			if (total >= 20)
+			{
+				count = 20;
+				total -= 20;
+			}
+			else
+			{
+				count = total;
+				total = 0;
+			}
+>>>>>>> origin/main
 		}
 		sceneGame->GetHud()->SetAmmo(count, total);
 	}
@@ -194,7 +209,6 @@ void Player::OnItem(Item* item)
 	switch (item->GetType())
 	{
 	case Item::Types::Ammo:
-		
 		ammo = item->GetValue();
 		sceneGame->GetHud()->SetBulletCount(ammo);
 		sceneGame->GetHud()->SetAmmo(sceneGame->GetHud()->GetbulletCount()

@@ -8,6 +8,7 @@
 #include "UiHud.h"
 #include "Upgrade.h"
 
+
 SceneGame::SceneGame(SceneIds id)
 	: Scene(id)
 {
@@ -102,7 +103,6 @@ void SceneGame::Init()
 	uiMsg->SetActive(false);
 	AddGo(uiMsg, Layers::Ui);
 
-
 	LoadHiScore();
 
 	Scene::Init();
@@ -131,6 +131,8 @@ void SceneGame::Enter()
 
 	Scene::Enter();
 	hud->SetScore(0);
+	hud->SetHiScore(this->HiScore);
+	hud->SetAmmo(0, 0);
 	hud->SetHiScore(0);
 	hud->SetAmmo(5, 20);
 	
@@ -185,9 +187,6 @@ void SceneGame::Reset()
 
 void SceneGame::Update(float dt)
 {
-	//선형 사운드 추가
-
-
 
 	FindGoAll("Zombie", zombieList, Layers::World);
 
@@ -345,6 +344,11 @@ void SceneGame::LoadHiScore()
 	}
 }
 
+<<<<<<< HEAD
+
+
+
+=======
 void SceneGame::ZombieClear()
 {
 	auto& list = GetZombieList();
@@ -376,3 +380,4 @@ void SceneGame::SetHitBox()
 		}
 	}
 }
+>>>>>>> origin/feature

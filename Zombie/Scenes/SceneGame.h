@@ -1,5 +1,7 @@
 #pragma once
 #include "Scene.h"
+#include <fstream>
+#include <iostream>
 #include "TextGo.h"
 
 class Player;
@@ -44,6 +46,8 @@ protected:
 	int wave = 1;
 	int Score = 0;
 	int HiScore = 0;
+	
+	
 	float timer = 0.f;
 	int fpsCount = 0;
 	int fps = 0.f;
@@ -81,6 +85,7 @@ public:
 	void AddHiScore(int s);
 	void SaveHiScore();
 	void LoadHiScore();
+
 	void ZombieClear();
 	void SetHitBox();
 };

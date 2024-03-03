@@ -3,6 +3,7 @@
 #include "SceneGame.h"
 #include "SpriteGoEffect.h"
 #include "ZombieTable.h"
+#include "UiHud.h"
 #include "ItemSpawner.h"
 #include "UiHud.h"
 #include "Item.h"
